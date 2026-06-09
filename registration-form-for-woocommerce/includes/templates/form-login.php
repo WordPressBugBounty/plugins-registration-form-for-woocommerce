@@ -92,6 +92,7 @@ if ( ( isset( $_POST['tgwcfb-register-nonce'] ) && wp_verify_nonce( sanitize_tex
 				<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
 				<?php wp_nonce_field( 'tgwcfb-register', 'tgwcfb-register-nonce' ); ?>
 				<input type="hidden" value="<?php echo esc_attr( $form_id ); ?>" name="tgwcfb_id" />
+				<input type="hidden" name="register" value="1" />
 				<?php
 					$text = get_post_meta( $form_id, '_tgwcfb_submit_btn_text', true );
 					$text = empty( $text ) ? __( 'Register', 'registration-form-for-woocommerce' ) : $text;

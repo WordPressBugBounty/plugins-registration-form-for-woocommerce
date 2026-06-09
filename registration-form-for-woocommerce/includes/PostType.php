@@ -42,6 +42,7 @@ class PostType {
 		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		add_action( 'admin_menu', array( $this, 'add_submenu' ) );
 		add_action( 'admin_footer', array( $this, 'print_shortcode_copy_script' ) );
+		add_action( 'admin_footer', array( $this, 'add_editor_header_text' ) );
 		add_filter( 'pll_get_post_types', array( $this, 'add_tgwcfb_to_pll' ) );
 		do_action( 'tgwcfb_post_type_unhook' );
 	}
@@ -108,7 +109,7 @@ class PostType {
 				'tgwcfb_form_post_type',
 				array(
 					'labels'              => array(
-						'name'               => __( 'Forms', 'registration-form-for-woocommerce' ),
+						'name'               => __( 'All Forms', 'registration-form-for-woocommerce' ),
 						'singular_name'      => __( 'Form', 'registration-form-for-woocommerce' ),
 						'menu_name'          => _x( 'Registration Form', 'Admin menu name', 'registration-form-for-woocommerce' ),
 						'all_items'          => __( 'All forms', 'registration-form-for-woocommerce' ),
@@ -211,10 +212,12 @@ class PostType {
 			return;
 		}
 		?>
-		<input style="width: calc(100% - 40px)" type="text" class="widefat code" readOnly onfocus="this.select();" value='[tgwcfb_registration_form id="<?php echo esc_attr( $post->ID ); ?>"]' />
-		<button title="<?php esc_attr_e( 'Copy shortcode!', 'registration-form-for-woocommerce' ); ?>" style="line-height: 1; padding: 4px" class="button tgwcfb-copy-shortcode">
-			<span class="dashicons dashicons-admin-page"></span>
-		</button>
+		<div class="tgwcfb-shortcode-wrap">
+			<input style="width: calc(100% - 160px)" type="text" class="widefat code" readOnly onfocus="this.select();" value='[tgwcfb_registration_form id="<?php echo esc_attr( $post->ID ); ?>"]' />
+			<button title="<?php esc_attr_e( 'Copy shortcode!', 'registration-form-for-woocommerce' ); ?>" style="line-height: 1; padding: 4px" class="button tgwcfb-copy-shortcode">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tgwcfb-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+			</button>
+		</div>
 		<?php
 	}
 
@@ -252,6 +255,16 @@ class PostType {
 		register_post_meta(
 			'tgwcfb_form',
 			'_tgwcfb_recaptcha_v2',
+			array(
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'boolean',
+				'auth_callback' => '__return_true',
+			)
+		);
+		register_post_meta(
+			'tgwcfb_form',
+			'_tgwcfb_recaptcha_v2_as_invisible',
 			array(
 				'show_in_rest'  => true,
 				'single'        => true,
@@ -388,6 +401,279 @@ class PostType {
 		?>
 		<script>
 			jQuery(document).ready(function(o){o("<style>.tgwcfb-tooltip{ background-color: #2271b1 ! important; background-image: none ! important; opacity: 1 !important; border: none !important; font-size: 12px !important; color: #fff !important</style>").appendTo(o("head"));var t=o(".tgwcfb-copy-shortcode"),e={position:{at:"center bottom",my:"center top"},tooltipClass:"tgwcfb-tooltip",content:"<?php echo esc_js( __( 'Copy shortcode !', 'registration-form-for-woocommerce' ) ); ?>"};t.tooltip(e),t.on("click",function(t){t.preventDefault();var e=o('<textarea style="opacity:0">'),n=o(this);o("body").append(e),e.val(n.prev().val()).select();try{document.execCommand("copy"),n.trigger("shortcodeCopied")}catch(o){console.log(o)}e.remove()}).on("shortcodeCopied",function(){o(this).tooltip("destroy"),o(this).tooltip(Object.assign({},e,{content:"<?php echo esc_js( __( 'Copied !', 'registration-form-for-woocommerce' ) ); ?>"})).tooltip("open")}).on("mouseleave",function(){o(this).tooltip("destroy"),o(this).tooltip(e)})});
+		</script>
+		<?php
+	}
+
+	/**
+	 * Add text to editor header for tgwcfb_form post type.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function add_editor_header_text() {
+		global $current_screen, $post;
+
+		// Check if we're on the post edit screen for tgwcfb_form post type.
+		if ( ! $current_screen || 'post' !== $current_screen->base ) {
+			return;
+		}
+
+		// Check post type from screen or post object.
+		$post_type = '';
+		if ( $post && isset( $post->post_type ) ) {
+			$post_type = $post->post_type;
+		} elseif ( $current_screen && isset( $current_screen->post_type ) ) {
+			$post_type = $current_screen->post_type;
+		}
+
+		if ( 'tgwcfb_form' !== $post_type ) {
+			return;
+		}
+
+		// Only run in block editor (Gutenberg).
+		if ( ! $current_screen->is_block_editor() ) {
+			return;
+		}
+
+		$copy_text   = esc_js( __( 'Copy shortcode!', 'registration-form-for-woocommerce' ) );
+		$copied_text = esc_js( __( 'Copied!', 'registration-form-for-woocommerce' ) );
+		$post_id     = $post && isset( $post->ID ) ? $post->ID : 0;
+		?>
+		<style>
+		.tgwcfb-header-copy-shortcode {
+			position: relative;
+		}
+		.tgwcfb-header-copy-shortcode::after {
+			content: '<?php echo $copy_text; ?>';
+			position: absolute;
+			bottom: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-bottom: 5px;
+			padding: 4px 8px;
+			background-color: #2271b1;
+			color: #fff;
+			font-size: 12px;
+			white-space: nowrap;
+			border-radius: 3px;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.2s;
+			z-index: 1000;
+		}
+		.tgwcfb-header-copy-shortcode::before {
+			content: '';
+			position: absolute;
+			bottom: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-bottom: -1px;
+			border: 5px solid transparent;
+			border-top-color: #2271b1;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.2s;
+			z-index: 1000;
+		}
+		.tgwcfb-header-copy-shortcode:hover::after,
+		.tgwcfb-header-copy-shortcode:hover::before {
+			opacity: 1;
+		}
+		.tgwcfb-header-copy-shortcode.copied::after {
+			content: '<?php echo $copied_text; ?>';
+			opacity: 1;
+		}
+		.tgwcfb-header-copy-shortcode.copied::before {
+			opacity: 1;
+		}
+		</style>
+		<script>
+		(function() {
+			function getPostId() {
+				// Try to get post ID from WordPress editor state
+				if (typeof wp !== 'undefined' && wp.data && wp.data.select('core/editor')) {
+					var postId = wp.data.select('core/editor').getCurrentPostId();
+					if (postId) {
+						return postId;
+					}
+				}
+
+				// Fallback: try to get from URL
+				var urlParams = new URLSearchParams(window.location.search);
+				var postId = urlParams.get('post');
+				if (postId) {
+					return parseInt(postId);
+				}
+
+				// Fallback: try to get from PHP
+				return <?php echo (int) $post_id; ?>;
+			}
+
+			function updateShortcode(inputField, postId) {
+				if (postId && postId > 0) {
+					inputField.value = '[tgwcfb_registration_form id="' + postId + '"]';
+				} else {
+					inputField.value = '<?php echo esc_js( __( 'Save the form to get shortcode', 'registration-form-for-woocommerce' ) ); ?>';
+					inputField.style.color = '#999';
+				}
+			}
+
+			function insertHeaderText() {
+				var editorHeader = document.querySelector('.edit-post-header');
+				if (!editorHeader || editorHeader.querySelector('.tgwcfb-header-shortcode-wrap')) {
+					return false;
+				}
+
+				// Find the save draft button element.
+				var saveDraftButton = editorHeader.querySelector('.components-button.editor-post-save-draft.is-compact.is-tertiary');
+				if (!saveDraftButton) {
+					// Try alternative selectors in case classes vary
+					saveDraftButton = editorHeader.querySelector('.editor-post-save-draft');
+					if (!saveDraftButton) {
+						saveDraftButton = editorHeader.querySelector('button[aria-label*="Save"], button[aria-label*="save"]');
+					}
+				}
+
+				// Get post ID
+				var postId = getPostId();
+
+				// Create wrapper div
+				var shortcodeWrap = document.createElement('div');
+				shortcodeWrap.className = 'tgwcfb-header-shortcode-wrap';
+				shortcodeWrap.style.cssText = 'margin-left: auto; padding: 0 12px; display: flex; align-items: center; gap: 8px;';
+
+				// Create input field
+				var inputField = document.createElement('input');
+				inputField.type = 'text';
+				inputField.className = 'tgwcfb-header-shortcode-input';
+				inputField.readOnly = true;
+				inputField.style.cssText = 'width: 280px; padding: 4px 8px; font-size: 12px; font-family: monospace; border: 1px solid #ddd; border-radius: 2px; background: #fff;';
+				inputField.onfocus = function() { this.select(); };
+
+				// Set initial shortcode value
+				updateShortcode(inputField, postId);
+
+				// Create copy button
+				var copyButton = document.createElement('button');
+				copyButton.type = 'button';
+				copyButton.className = 'button tgwcfb-header-copy-shortcode';
+				copyButton.title = '<?php echo esc_js( __( 'Copy shortcode!', 'registration-form-for-woocommerce' ) ); ?>';
+				copyButton.style.cssText = 'line-height: 1; padding: 4px; min-width: 32px; height: 28px; display: flex; align-items: center; justify-content: center; position: relative;';
+
+				// Add SVG icon
+				var svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+				svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+				svgIcon.setAttribute('width', '16');
+				svgIcon.setAttribute('height', '16');
+				svgIcon.setAttribute('viewBox', '0 0 24 24');
+				svgIcon.setAttribute('fill', 'none');
+				svgIcon.setAttribute('stroke', 'currentColor');
+				svgIcon.setAttribute('stroke-width', '2');
+				svgIcon.setAttribute('stroke-linecap', 'round');
+				svgIcon.setAttribute('stroke-linejoin', 'round');
+				svgIcon.className = 'tgwcfb-copy';
+
+				var rect1 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+				rect1.setAttribute('width', '14');
+				rect1.setAttribute('height', '14');
+				rect1.setAttribute('x', '8');
+				rect1.setAttribute('y', '8');
+				rect1.setAttribute('rx', '2');
+				rect1.setAttribute('ry', '2');
+
+				var path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+				path1.setAttribute('d', 'M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2');
+
+				svgIcon.appendChild(rect1);
+				svgIcon.appendChild(path1);
+				copyButton.appendChild(svgIcon);
+
+				// Copy functionality
+				copyButton.addEventListener('click', function(e) {
+					e.preventDefault();
+					inputField.select();
+					try {
+						document.execCommand('copy');
+						// Add 'copied' class to show tooltip
+						copyButton.classList.add('copied');
+						setTimeout(function() {
+							copyButton.classList.remove('copied');
+						}, 2000);
+					} catch(err) {
+						console.log('Failed to copy:', err);
+					}
+				});
+
+				// Append input and button to wrapper
+				shortcodeWrap.appendChild(inputField);
+				shortcodeWrap.appendChild(copyButton);
+
+				if (saveDraftButton && saveDraftButton.parentNode) {
+					// Insert before the save draft button.
+					saveDraftButton.parentNode.insertBefore(shortcodeWrap, saveDraftButton);
+				} else {
+					// Fallback: try to find the toolbar and insert before it
+					var headerToolbar = editorHeader.querySelector('.edit-post-header__toolbar');
+					if (headerToolbar && headerToolbar.parentNode) {
+						headerToolbar.parentNode.insertBefore(shortcodeWrap, headerToolbar);
+					} else {
+						// Last fallback: append to header.
+						editorHeader.appendChild(shortcodeWrap);
+					}
+				}
+
+				// Listen for post save to update shortcode if post ID was 0
+				if (!postId || postId === 0) {
+					// Subscribe to WordPress editor store to get post ID when saved
+					if (typeof wp !== 'undefined' && wp.data && wp.data.subscribe) {
+						var unsubscribe = wp.data.subscribe(function() {
+							var newPostId = getPostId();
+							if (newPostId && newPostId > 0 && newPostId !== postId) {
+								updateShortcode(inputField, newPostId);
+								inputField.style.color = '#1e1e1e';
+								// Unsubscribe after getting the ID
+								if (unsubscribe) {
+									unsubscribe();
+								}
+							}
+						});
+					}
+				}
+
+				return true;
+			}
+
+			// Wait for the editor to be ready.
+			if (typeof wp !== 'undefined' && wp.domReady) {
+				wp.domReady(function() {
+					// Use MutationObserver to wait for the editor header to be available.
+					var observer = new MutationObserver(function(mutations) {
+						if (insertHeaderText()) {
+							observer.disconnect();
+						}
+					});
+
+					// Start observing the document body for changes.
+					observer.observe(document.body, {
+						childList: true,
+						subtree: true
+					});
+
+					// Also try immediately in case the header is already loaded.
+					if (insertHeaderText()) {
+						observer.disconnect();
+					}
+				});
+			} else {
+				// Fallback for older WordPress versions or if wp.domReady is not available.
+				document.addEventListener('DOMContentLoaded', function() {
+					setTimeout(function() {
+						insertHeaderText();
+					}, 1000);
+				});
+			}
+		})();
 		</script>
 		<?php
 	}

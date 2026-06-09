@@ -45,4 +45,16 @@ export default {
 			remove: true,
 		},
 	},
+	confirmEmail: {
+		type: Boolean,
+		default: false,
+	},
+	confirmEmailLabel: {
+		type: String,
+		default: 'Confirm Email',
+	},
+	confirmEmailPlaceholder: {
+		type: String,
+		default: '',
+	},
 };

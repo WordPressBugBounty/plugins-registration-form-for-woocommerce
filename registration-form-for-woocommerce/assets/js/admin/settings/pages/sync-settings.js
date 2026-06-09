@@ -6,7 +6,6 @@ import {
 	Popover,
 	SelectControl,
 	Spinner,
-	Tooltip as WPTooltip,
 } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useCallback, useEffect, useState } from '@wordpress/element';
@@ -36,6 +35,7 @@ const CHECKOUT_BLOCKS = [
 	'tgwcfb/description',
 	'tgwcfb/phone',
 	'tgwcfb/secondary-email',
+	'tgwcfb/gdpr-agreement',
 ];
 
 const WC_ACCOUNT_SETTINGS_URL =
@@ -155,8 +155,8 @@ export default () => {
 						'Replace WooCommerce registration form',
 						'registration-form-for-woocommerce'
 					)}
-					<WPTooltip
-						text={
+					<Tooltip
+						content={
 							<>
 								{__(
 									'Replace default WooCommerce registration form in My Account page. Allow registration in My Account page via ',
@@ -167,21 +167,10 @@ export default () => {
 								</ExternalLink>
 							</>
 						}
-						style={{
-							background: 'white',
-							maxWidth: '325px',
-							color: 'black',
-							border: '1px solid #ccc',
-							padding: '16px',
-							whiteSpace: 'normal',
-							fontWeight: 'normal',
-							fontSize: '14px',
-							textAlign: 'left',
-						}}
-						delay="0"
+						width={325}
 					>
 						<Button icon={'info-outline'} />
-					</WPTooltip>
+					</Tooltip>
 				</BaseControl.VisualLabel>
 				<SelectControl
 					value={formId}

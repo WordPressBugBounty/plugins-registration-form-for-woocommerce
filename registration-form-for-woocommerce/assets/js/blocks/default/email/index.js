@@ -18,11 +18,12 @@ export default () => {
 			<Icon
 				size={24}
 				icon={
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-						<path
-							fill="#000000"
-							d="M2 6v20h28V6Zm14 12.59L5.41 8h21.18Zm0 2.82 4-4L26.59 24H5.41L12 17.41Zm12-12v13.18L21.41 16ZM10.59 16 4 22.59V9.41Z"
-						/>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path d="M2 4v15h20V4H2Zm10 9.443L4.436 5.5h15.128L12 13.443Zm0 2.114 2.857-3 4.707 4.943H4.436l4.707-4.943 2.857 3Zm8.571-9v9.885L15.864 11.5l4.707-4.942ZM8.136 11.5l-4.707 4.942V6.558L8.136 11.5Z" />
 					</svg>
 				}
 			/>

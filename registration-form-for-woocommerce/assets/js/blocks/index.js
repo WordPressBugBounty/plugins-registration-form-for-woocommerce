@@ -15,21 +15,21 @@ import {
 import './block.scss';
 import {
 	registerCustomCheckboxBlock,
+	registerCustomDatePickerBlock,
 	registerCustomEmailBlock,
+	registerCustomFileUploadBlock,
+	registerCustomGdprAgreementBlock,
 	registerCustomInputBlock,
+	registerCustomMultiSelectBlock,
 	registerCustomNumberBlock,
+	registerCustomPhoneBlock,
+	registerCustomProfilePictureBlock,
 	registerCustomRadioBlock,
+	registerCustomRangeBlock,
 	registerCustomSelectBlock,
 	registerCustomTextareaBlock,
-	registerCustomPhoneBlock,
-	registerCustomMultiSelectBlock,
-	registerCustomDatePickerBlock,
-	registerCustomProfilePictureBlock,
-	registerCustomRangeBlock,
 	registerCustomTimePickerBlock,
 	registerCustomUserRolesBlock,
-	registerCustomFileUploadBlock,
-
 } from './custom';
 import {
 	registerDefaultDisplayNameBlock,
@@ -109,8 +109,8 @@ registerShippingZipCodeBlock();
 registerShippingPhoneBlock();
 
 // Custom fields.
+registerCustomGdprAgreementBlock();
 registerCustomEmailBlock();
-registerCustomPhoneBlock();
 registerCustomInputBlock();
 registerCustomTextareaBlock();
 registerCustomNumberBlock();
@@ -118,6 +118,7 @@ registerCustomCheckboxBlock();
 registerCustomRadioBlock();
 registerCustomSelectBlock();
 registerCustomMultiSelectBlock();
+registerCustomPhoneBlock();
 registerCustomRangeBlock();
 registerCustomDatePickerBlock();
 registerCustomTimePickerBlock();

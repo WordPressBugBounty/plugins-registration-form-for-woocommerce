@@ -7,7 +7,8 @@ export default createHigherOrderComponent((Component) => {
 			'tgwcfb/radio' === props.name ||
 			'tgwcfb/profile-picture' === props.name ||
 			'tgwcfb/range' === props.name ||
-			'tgwcfb/separate-shipping' === props.name
+			'tgwcfb/separate-shipping' === props.name ||
+			'tgwcfb/gdpr-agreement' === props.name
 		) {
 			return null;
 		}

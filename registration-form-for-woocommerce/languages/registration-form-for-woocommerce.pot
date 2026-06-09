@@ -1,15 +1,15 @@
-# Copyright (C) 2024 ThemeGrill
+# Copyright (C) 2026 ThemeGrill
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Registration Form For WooCommerce 1.0.2\n"
+"Project-Id-Version: Registration Form For WooCommerce 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/registration-form-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-07-10T11:11:20+02:00\n"
+"POT-Creation-Date: 2026-06-05T09:04:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: registration-form-for-woocommerce\n"
@@ -108,189 +108,237 @@ msgstr ""
 msgid "Upload path permission deny."
 msgstr ""
 
-#: includes/Blocks.php:129
+#: includes/Blocks.php:131
 msgid "Default Fields"
 msgstr ""
 
-#: includes/Blocks.php:133
+#: includes/Blocks.php:135
 msgid "Custom Fields"
 msgstr ""
 
-#: includes/Blocks.php:137
+#: includes/Blocks.php:139
 msgid "WooCommerce Billing Address"
 msgstr ""
 
-#: includes/Blocks.php:141
+#: includes/Blocks.php:143
 msgid "WooCommerce Shipping Address"
 msgstr ""
 
-#: includes/Email.php:49
+#: includes/Email.php:104
+msgid "Content"
+msgstr ""
+
+#: includes/Email.php:107
+msgid "Email content. Available placeholders: {{first_name}}, {{last_name}}, {{username}}, {{email}}, {{home_url}}, {{blog_info}}, {{all_fields}}, {{verification_link}}"
+msgstr ""
+
+#: includes/FormHandler.php:176
+msgid "Invalid user role selected."
+msgstr ""
+
+#: includes/FormHandler.php:207
+msgid "reCAPTCHA token is missing."
+msgstr ""
+
+#: includes/FormHandler.php:223
+msgid "Unable to verify reCAPTCHA. Please try again later."
+msgstr ""
+
+#: includes/FormHandler.php:230
+msgid "Google reCAPTCHA verification failed. Please try again."
+msgstr ""
+
+#: includes/FormHandler.php:246
+#: includes/FormHandler.php:249
+msgid "Google reCAPTCHA verification failed, please try again later."
+msgstr ""
+
+#: includes/FormHandler.php:262
+msgid "Please verify you are human by completing the hCaptcha."
+msgstr ""
+
+#: includes/FormHandler.php:276
+msgid "hCaptcha verification failed, please try again later."
+msgstr ""
+
+#: includes/FormHandler.php:280
+msgid "hCaptcha verification failed, please try again."
+msgstr ""
+
+#: includes/FormHandler.php:289
+msgid "Status"
+msgstr ""
+
+#: includes/FormHandler.php:557
+#: includes/PostType.php:300
+msgid "Registration complete, wait until admin approves your registration"
+msgstr ""
+
+#: includes/FormHandler.php:558
+msgid "User registered. Verify your email by clicking on the link sent to your email."
+msgstr ""
+
+#: includes/FormHandler.php:607
+msgid "Username already exists."
+msgstr ""
+
+#. Translators: Label
+#: includes/FormHandler.php:618
+msgid "%s is not valid."
+msgstr ""
+
+#. Translators: Label
+#: includes/FormHandler.php:624
+msgid "%s is required."
+msgstr ""
+
+#: includes/FormHandler.php:645
+msgid "Please confirm your email address."
+msgstr ""
+
+#: includes/FormHandler.php:650
+msgid "Email addresses do not match."
+msgstr ""
+
+#: includes/Functions/CoreFunctions.php:444
+#: assets/js/build/admin-settings.js:2
 msgid "Admin Email"
 msgstr ""
 
-#: includes/Email.php:50
+#: includes/Functions/CoreFunctions.php:445
+#: assets/js/build/admin-settings.js:2
 msgid "Email sent to the admin when a new user registers"
 msgstr ""
 
-#: includes/Email.php:54
-#: includes/Email.php:55
+#: includes/Functions/CoreFunctions.php:449
+#: includes/Functions/CoreFunctions.php:450
 msgid "New user registration"
 msgstr ""
 
-#: includes/Email.php:56
+#: includes/Functions/CoreFunctions.php:451
 msgid ""
 "Hi Admin, <br/>\r\n"
 "\r\n"
 "A new user {{username}} - {{email}} has successfully registered to your site <a href=\"{{home_url}}\">{{blog_info}}</a>. <br/>\r\n"
 "\r\n"
-"Please review the user role and details at <b>Users</b> menu in your WP dashboard. <br/>\r\n"
+"Please review the user role and details at <b>Users</b> menu in your WP dashboard111. <br/>\r\n"
 "\r\n"
 "Thank You!"
-msgstr ""
-
-#: includes/Email.php:113
-msgid "Content"
-msgstr ""
-
-#: includes/Email.php:116
-msgid "Email content. Available placeholders: {{username}}, {{email}}, {{home_url}}, {{blog_info}}, {{all_fields}}, {{verification_link}}"
-msgstr ""
-
-#: includes/FormHandler.php:193
-#: includes/FormHandler.php:196
-msgid "Google reCAPTCHA verification failed, please try again later."
-msgstr ""
-
-#: includes/FormHandler.php:202
-msgid "Status"
-msgstr ""
-
-#: includes/FormHandler.php:467
-#: includes/PostType.php:277
-msgid "Registration complete, wait until admin approves your registration"
-msgstr ""
-
-#: includes/FormHandler.php:468
-msgid "User registered. Verify your email by clicking on the link sent to your email."
-msgstr ""
-
-#: includes/FormHandler.php:517
-msgid "Username already exists."
-msgstr ""
-
-#. Translators: Label
-#: includes/FormHandler.php:528
-msgid "%s is not valid."
-msgstr ""
-
-#. Translators: Label
-#: includes/FormHandler.php:534
-msgid "%s is required."
 msgstr ""
 
 #: includes/Install.php:66
 msgid "Default form"
 msgstr ""
 
-#: includes/PostType.php:69
 #: includes/PostType.php:70
-#: includes/PostType.php:78
+#: includes/PostType.php:71
 #: includes/PostType.php:79
+#: includes/PostType.php:80
 #: assets/js/build/blocks.js:1
 msgid "Settings"
 msgstr ""
 
-#: includes/PostType.php:111
-msgid "Forms"
-msgstr ""
-
 #: includes/PostType.php:112
-msgid "Form"
+msgid "All Forms"
 msgstr ""
 
 #: includes/PostType.php:113
+msgid "Form"
+msgstr ""
+
+#: includes/PostType.php:114
 msgctxt "Admin menu name"
 msgid "Registration Form"
 msgstr ""
 
-#: includes/PostType.php:114
+#: includes/PostType.php:115
 msgid "All forms"
 msgstr ""
 
-#: includes/PostType.php:115
+#: includes/PostType.php:116
 msgid "Add form"
 msgstr ""
 
-#: includes/PostType.php:116
+#: includes/PostType.php:117
 msgid "Add new form"
 msgstr ""
 
-#: includes/PostType.php:117
+#: includes/PostType.php:118
 msgid "Edit"
 msgstr ""
 
-#: includes/PostType.php:118
+#: includes/PostType.php:119
 #: includes/Preview.php:87
 msgid "Edit form"
 msgstr ""
 
-#: includes/PostType.php:119
+#: includes/PostType.php:120
 msgid "New form"
 msgstr ""
 
-#: includes/PostType.php:120
+#: includes/PostType.php:121
 msgid "View forms"
 msgstr ""
 
-#: includes/PostType.php:121
+#: includes/PostType.php:122
 msgid "View form"
 msgstr ""
 
-#: includes/PostType.php:122
+#: includes/PostType.php:123
 msgid "Search forms"
 msgstr ""
 
-#: includes/PostType.php:123
+#: includes/PostType.php:124
 msgid "No forms found"
 msgstr ""
 
-#: includes/PostType.php:124
+#: includes/PostType.php:125
 msgid "No forms found in trash"
 msgstr ""
 
-#: includes/PostType.php:125
+#: includes/PostType.php:126
 msgid "Parent form"
 msgstr ""
 
-#: includes/PostType.php:196
+#: includes/PostType.php:197
 msgid "Shortcode"
 msgstr ""
 
-#: includes/PostType.php:215
+#: includes/PostType.php:217
+#: includes/PostType.php:439
+#: includes/PostType.php:561
 msgid "Copy shortcode!"
 msgstr ""
 
-#: includes/PostType.php:291
+#: includes/PostType.php:314
 msgid "Your account is still pending approval"
 msgstr ""
 
-#: includes/PostType.php:302
+#: includes/PostType.php:325
 msgid "Your account has been denied"
 msgstr ""
 
-#: includes/PostType.php:324
+#: includes/PostType.php:357
 #: includes/templates/form-login.php:60
-#: includes/templates/form-login.php:97
-#: includes/templates/form-registration.php:28
+#: includes/templates/form-login.php:98
+#: includes/templates/form-registration.php:29
 msgid "Register"
 msgstr ""
 
-#: includes/PostType.php:370
+#: includes/PostType.php:403
 msgid "Copy shortcode !"
 msgstr ""
 
-#: includes/PostType.php:370
+#: includes/PostType.php:403
 msgid "Copied !"
+msgstr ""
+
+#: includes/PostType.php:440
+msgid "Copied!"
+msgstr ""
+
+#: includes/PostType.php:517
+msgid "Save the form to get shortcode"
 msgstr ""
 
 #. translators: %s - Form name.
@@ -298,32 +346,36 @@ msgstr ""
 msgid "%s &ndash; Preview"
 msgstr ""
 
-#: includes/ScriptStyle.php:106
+#: includes/ScriptStyle.php:124
 msgid "Uploading..."
 msgstr ""
 
-#: includes/ScriptStyle.php:107
+#: includes/ScriptStyle.php:125
 msgid "Something went wrong, please try again"
 msgstr ""
 
-#: includes/ScriptStyle.php:108
+#: includes/ScriptStyle.php:126
 msgid "Crop Your Picture"
 msgstr ""
 
-#: includes/ScriptStyle.php:109
+#: includes/ScriptStyle.php:127
 msgid "Crop picture"
 msgstr ""
 
-#: includes/ScriptStyle.php:110
+#: includes/ScriptStyle.php:128
 msgid "Permission error"
 msgstr ""
 
-#: includes/ScriptStyle.php:111
+#: includes/ScriptStyle.php:129
 msgid "Cancel"
 msgstr ""
 
-#: includes/ScriptStyle.php:112
+#: includes/ScriptStyle.php:130
 msgid "Ok"
+msgstr ""
+
+#: includes/ScriptStyle.php:139
+msgid "Select an option&hellip;"
 msgstr ""
 
 #: includes/Shortcode.php:61
@@ -346,26 +398,26 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: includes/Sync.php:363
-#: includes/Sync.php:535
-#: includes/Sync.php:538
+#: includes/Sync.php:365
+#: includes/Sync.php:537
+#: includes/Sync.php:540
 msgid "Additional Information"
 msgstr ""
 
-#: includes/Sync.php:382
+#: includes/Sync.php:384
 msgid "Profile Details Changed Email"
 msgstr ""
 
-#: includes/Sync.php:383
+#: includes/Sync.php:385
 msgid "Email sent to the admin when a user profile details is changed"
 msgstr ""
 
-#: includes/Sync.php:384
-#: includes/Sync.php:385
+#: includes/Sync.php:386
+#: includes/Sync.php:387
 msgid "Profile Details Changed"
 msgstr ""
 
-#: includes/Sync.php:386
+#: includes/Sync.php:388
 msgid ""
 "User has changed profile information for the following account:<br/>\r\n"
 "\r\n"
@@ -377,20 +429,20 @@ msgid ""
 "Thank You!"
 msgstr ""
 
-#: includes/Sync.php:402
+#: includes/Sync.php:404
 msgid "Awaiting Registration Approval Email"
 msgstr ""
 
-#: includes/Sync.php:403
+#: includes/Sync.php:405
 msgid "Email sent to the customer when customer register and approval is required"
 msgstr ""
 
-#: includes/Sync.php:404
-#: includes/Sync.php:405
+#: includes/Sync.php:406
+#: includes/Sync.php:407
 msgid "Awaiting Registration Approval"
 msgstr ""
 
-#: includes/Sync.php:407
+#: includes/Sync.php:409
 msgid ""
 "Hi {{username}}, <br/>\r\n"
 "\r\n"
@@ -401,20 +453,20 @@ msgid ""
 "Thank You!"
 msgstr ""
 
-#: includes/Sync.php:422
+#: includes/Sync.php:424
 msgid "Registration Pending Email"
 msgstr ""
 
-#: includes/Sync.php:423
+#: includes/Sync.php:425
 msgid "Email sent to the customer when admin changes user status to pending"
 msgstr ""
 
-#: includes/Sync.php:424
-#: includes/Sync.php:425
+#: includes/Sync.php:426
+#: includes/Sync.php:427
 msgid "Registration Pending"
 msgstr ""
 
-#: includes/Sync.php:427
+#: includes/Sync.php:429
 msgid ""
 "Hi {{username}}, <br/>\r\n"
 "\r\n"
@@ -427,20 +479,20 @@ msgid ""
 "Thank You!"
 msgstr ""
 
-#: includes/Sync.php:444
+#: includes/Sync.php:446
 msgid "Registration Approved Email"
 msgstr ""
 
-#: includes/Sync.php:445
+#: includes/Sync.php:447
 msgid "Email sent to the customer when admin approves account"
 msgstr ""
 
-#: includes/Sync.php:446
-#: includes/Sync.php:447
+#: includes/Sync.php:448
+#: includes/Sync.php:449
 msgid "Registration Approved"
 msgstr ""
 
-#: includes/Sync.php:449
+#: includes/Sync.php:451
 msgid ""
 "Hi {{username}}, <br/>\r\n"
 "\r\n"
@@ -451,20 +503,20 @@ msgid ""
 "Thank You!"
 msgstr ""
 
-#: includes/Sync.php:464
+#: includes/Sync.php:466
 msgid "Registration Denied Email"
 msgstr ""
 
-#: includes/Sync.php:465
+#: includes/Sync.php:467
 msgid "Email sent to the customer when admin disapproves account"
 msgstr ""
 
-#: includes/Sync.php:466
-#: includes/Sync.php:467
+#: includes/Sync.php:468
+#: includes/Sync.php:469
 msgid "Registration Denied"
 msgstr ""
 
-#: includes/Sync.php:469
+#: includes/Sync.php:471
 msgid ""
 "Hi {{username}}, <br/>\r\n"
 "\r\n"
@@ -475,32 +527,32 @@ msgid ""
 "Thank You!"
 msgstr ""
 
-#: includes/Sync.php:485
 #: includes/Sync.php:487
-#: includes/Sync.php:488
+#: includes/Sync.php:489
+#: includes/Sync.php:490
 msgid "Email confirmation"
 msgstr ""
 
-#: includes/Sync.php:486
+#: includes/Sync.php:488
 msgid "Email sent to the customer after registration and email confirmation is required"
 msgstr ""
 
-#: includes/Sync.php:490
+#: includes/Sync.php:492
 msgid ""
 "Hi {{username}}, <br/>\r\n"
 "\r\n"
-"Your have registered on <a href=\"{{home_url}}\">{{blog_info}}</a>.<br/>\r\n"
+"You have registered on <a href=\"{{home_url}}\">{{blog_info}}</a>.<br/>\r\n"
 "\r\n"
 "Please click on this verification link {{verification_link}} to confirm registration.\r\n"
 "\r\n"
 "Thank You!"
 msgstr ""
 
-#: includes/Sync.php:543
+#: includes/Sync.php:545
 msgid "Field"
 msgstr ""
 
-#: includes/Sync.php:544
+#: includes/Sync.php:546
 msgid "Value"
 msgstr ""
 
@@ -516,48 +568,48 @@ msgstr ""
 msgid "Create an account?"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:40
+#: includes/templates/form-edit-account.php:41
 #: assets/js/build/blocks.js:1
 msgid "First name"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:44
+#: includes/templates/form-edit-account.php:45
 #: assets/js/build/blocks.js:1
 msgid "Last name"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:50
+#: includes/templates/form-edit-account.php:51
 #: assets/js/build/blocks.js:1
 msgid "Display name"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:51
+#: includes/templates/form-edit-account.php:52
 msgid "This will be how your name will be displayed in the account section and in reviews"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:56
+#: includes/templates/form-edit-account.php:57
 #: includes/templates/form-login.php:78
 #: assets/js/build/blocks.js:1
 msgid "Email address"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:61
+#: includes/templates/form-edit-account.php:62
 msgid "Password change"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:64
+#: includes/templates/form-edit-account.php:65
 msgid "Current password (leave blank to leave unchanged)"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:68
+#: includes/templates/form-edit-account.php:69
 msgid "New password (leave blank to leave unchanged)"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:72
+#: includes/templates/form-edit-account.php:73
 msgid "Confirm new password"
 msgstr ""
 
-#: includes/templates/form-edit-account.php:82
+#: includes/templates/form-edit-account.php:83
 #: assets/js/build/admin-settings.js:2
 msgid "Save changes"
 msgstr ""
@@ -603,7 +655,23 @@ msgid "Cheatin&#8217"
 msgstr ""
 
 #: assets/js/build/admin-settings.js:2
-msgid "Goggle reCaptcha v2 settings"
+msgid "To"
+msgstr ""
+
+#: assets/js/build/admin-settings.js:2
+msgid "Email Content"
+msgstr ""
+
+#: assets/js/build/admin-settings.js:2
+msgid "Captcha Type"
+msgstr ""
+
+#: assets/js/build/admin-settings.js:2
+msgid "Select the captcha type which apply to the form"
+msgstr ""
+
+#: assets/js/build/admin-settings.js:2
+msgid "Google reCaptcha v2 settings"
 msgstr ""
 
 #: assets/js/build/admin-settings.js:2
@@ -616,6 +684,14 @@ msgstr ""
 
 #: assets/js/build/admin-settings.js:2
 msgid "Secret key"
+msgstr ""
+
+#: assets/js/build/admin-settings.js:2
+msgid "Google reCaptcha v3 settings"
+msgstr ""
+
+#: assets/js/build/admin-settings.js:2
+msgid "hCaptcha settings"
 msgstr ""
 
 #: assets/js/build/admin-settings.js:2
@@ -649,6 +725,11 @@ msgstr ""
 
 #: assets/js/build/admin-settings.js:2
 msgid "General Settings"
+msgstr ""
+
+#: assets/js/build/admin-settings.js:2
+#: assets/js/build/blocks.js:1
+msgid "Email"
 msgstr ""
 
 #: assets/js/build/admin-settings.js:2
@@ -701,6 +782,26 @@ msgstr ""
 
 #: assets/js/build/blocks.js:1
 msgid "Select user roles"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Agreement Text"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Checked by default"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Enable email confirmation"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Confirmation Label"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Confirmation Placeholder"
 msgstr ""
 
 #: assets/js/build/blocks.js:1
@@ -772,6 +873,26 @@ msgid "Google reCaptcha Settings"
 msgstr ""
 
 #: assets/js/build/blocks.js:1
+msgid "Use as invisible"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Enable Invisible reCAPTCHA v2 if you prefer image selection challenges instead of the checkbox."
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "reCaptcha v3 support"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "hCaptcha support"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "hCaptcha Settings"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
 msgid "User approval option"
 msgstr ""
 
@@ -812,11 +933,15 @@ msgid "Enter description"
 msgstr ""
 
 #: assets/js/build/blocks.js:1
-msgid "Email"
+msgid "Email field for WC registration form"
 msgstr ""
 
 #: assets/js/build/blocks.js:1
-msgid "Email field for WC registration form"
+msgid "Enter confirmation label"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Confirmation label is required"
 msgstr ""
 
 #: assets/js/build/blocks.js:1
@@ -1084,6 +1209,26 @@ msgid "Shipping phone field for WC registration form"
 msgstr ""
 
 #: assets/js/build/blocks.js:1
+msgid "GDPR Agreement"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "GDPR agreement field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "gdpr"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "agreement"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Enter agreement text"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
 msgid "Secondary Email"
 msgstr ""
 
@@ -1177,4 +1322,124 @@ msgstr ""
 
 #: assets/js/build/blocks.js:1
 msgid "select"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Multi Select"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Multi select field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "multi select"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Multi select"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Phone field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Range"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Range field is Premium field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "range"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Date Picker"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Date picker field is Premium field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "date picker"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Date picker"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Time Picker"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Time picker field is Premium field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "time picker"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Time picker"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "User Roles"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "User roles field is Premium field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "user roles"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "User roles"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Profile Picture"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Profile picture is Premium field field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "profile picture"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Profile picture"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Upload Image"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Remove"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "File Upload"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "File Upload field for WC registration form"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "Drop files here or click to upload"
+msgstr ""
+
+#: assets/js/build/blocks.js:1
+msgid "You can upload 1 file."
 msgstr ""

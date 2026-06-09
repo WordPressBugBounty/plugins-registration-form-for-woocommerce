@@ -215,9 +215,10 @@ function recaptcha( $id ) {
 
 	// Handle reCAPTCHA v2
 	if ( 'v2' === $captcha_type ) {
-		$site_key   = get_option( '_tgwcfb_site_key' );
-		$secret_key = get_option( '_tgwcfb_secret_key' );
-		$is_enabled = get_post_meta( $id, '_tgwcfb_recaptcha_v2', true );
+		$site_key             = get_option( '_tgwcfb_site_key' );
+		$secret_key           = get_option( '_tgwcfb_secret_key' );
+		$is_enabled           = get_post_meta( $id, '_tgwcfb_recaptcha_v2', true );
+				$is_invisible = get_post_meta( $id, '_tgwcfb_recaptcha_v2_as_invisible', true );
 
 		// If v2 is enabled, load the v2 API
 		if ( empty( $secret_key ) || empty( $site_key ) || ! $is_enabled ) {
@@ -225,7 +226,37 @@ function recaptcha( $id ) {
 		}
 
 		$recaptcha_api    = 'https://www.google.com/recaptcha/api.js?onload=TGWCFBRecaptchaLoad&render=explicit';
-		$recaptcha_inline = 'var TGWCFBRecaptchaLoad=function(){jQuery(".g-recaptcha").each(function(a,c){var r=grecaptcha.render(c);jQuery(c).attr("data-recaptcha-id",r)})};';
+		$recaptcha_inline = 'var TGWCFBRecaptchaLoad=function(){
+		jQuery(".g-recaptcha").each(function(index, element){
+			var config = {};
+			if (jQuery(element).data("size") === "invisible") {
+				config["size"] = "invisible";
+				config["callback"] = function(token) {
+					jQuery(element).closest("form").off("submit.invisible").submit(); // prevent loop and submit
+				};
+			}
+			var recaptchaId = grecaptcha.render(element, config);
+			jQuery(element).attr("data-recaptcha-id", recaptchaId);
+		});
+
+		jQuery("form").has(".g-recaptcha[data-size=\'invisible\']").each(function() {
+			const $form = jQuery(this);
+			$form.off("submit.invisible").on("submit.invisible", function(e) {
+				 e.preventDefault();
+                var token = $form.find("textarea[name=\'g-recaptcha-response\']").val();
+                if (token) {
+                    // Token exists, submit directly
+                    $form.off("submit.invisible").submit();
+                } else {
+                    var recaptchaId = $form.find(".g-recaptcha").data("recaptcha-id");
+                    if (typeof grecaptcha !== "undefined") {
+                        grecaptcha.execute(recaptchaId);
+						return false;
+                    }
+                }
+			});
+		});
+	};';
 
 		static $count_v2 = 1;
 
@@ -237,10 +268,14 @@ function recaptcha( $id ) {
 		}
 
 		echo '<div class="tgwcfb-recaptcha-container form-row">';
-		echo '<div class="g-recaptcha" data-sitekey="' . esc_attr( $site_key ) . '" data-recaptcha-id="' . esc_attr( $count_v2 ) . '"></div>';
-		echo '</div>';
+		echo '<div class="g-recaptcha" data-sitekey="' . esc_attr( $site_key ) . '" data-recaptcha-id="' . esc_attr( $count_v2 ) . '"';
 
-		// Handle reCAPTCHA v3
+		if ( $is_invisible ) {
+			echo ' data-size="invisible"';
+		}
+
+		echo '></div>';
+		echo '</div>';
 	} elseif ( 'v3' === $captcha_type ) {
 		$site_key   = get_option( '_tgwcfb_recaptcha_v3_site_key' );
 		$secret_key = get_option( '_tgwcfb_recaptcha_v3_secrete_key' );

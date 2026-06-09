@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 1.1.0       - 09-06-2026 =
+* Feature 	  - Added GDPR Agreement block.
+* Feature 	  - Added email confirmation field to the Email block.
+* Feature 	  - Added invisible reCaptcha v2 support.
+* Enhancement - Dashboard and Block settings UI/UX improvements.
+* Fix 		  - Tooltip-related issue.
+* Fix         - Prevented unauthorized role assignment during registration.
+
+
 = 1.0.9       - 09-07-2025 =
 * Fix         - Missing states for the selected country in the shipping and billing fields.
 

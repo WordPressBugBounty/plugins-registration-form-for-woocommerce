@@ -16,6 +16,9 @@ export default (props) => {
 			hasDescription,
 			fieldWidth,
 			edited,
+			confirmEmail,
+			confirmEmailLabel,
+			confirmEmailPlaceholder,
 		},
 		setAttributes,
 	} = props;
@@ -83,6 +86,48 @@ export default (props) => {
 						onChange={(val) => setAttributes({ description: val })}
 						allowedFormats={['core/italic']}
 					/>
+				)}
+				{confirmEmail && (
+					<div style={{ marginTop: '1em' }}>
+						<RichText
+							className={`tgwcfb-label ${required ? 'required' : ''}`}
+							value={confirmEmailLabel}
+							tagName="label"
+							onChange={(val) => setAttributes({ confirmEmailLabel: val })}
+							htmlFor="reg_confirm_email"
+							allowedFormats={[]}
+							placeholder={__(
+								'Enter confirmation label',
+								'registration-form-for-woocommerce'
+							)}
+						/>
+						{!confirmEmailLabel && (
+							<span
+								style={{
+									display: 'inline-block',
+									backgroundColor: '#ff02029c',
+									color: '#fff',
+									padding: '0 4px',
+									borderRadius: '4px',
+									fontSize: '12px',
+								}}
+							>
+								{__(
+									'Confirmation label is required',
+									'registration-form-for-woocommerce'
+								)}
+							</span>
+						)}
+						<input
+							type="email"
+							placeholder={confirmEmailPlaceholder}
+							disabled
+							className="input-text tgwcfb-input"
+							name="confirm_email"
+							id="reg_confirm_email"
+							autoComplete="email"
+						/>
+					</div>
 				)}
 			</div>
 		</>

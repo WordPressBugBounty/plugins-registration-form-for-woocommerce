@@ -140,6 +140,7 @@ export default (props) => {
 		<>
 			<InspectorControls>
 				<PanelBody
+					className="tgwcfb_settings"
 					title={__('Settings', 'registration-form-for-woocommerce')}
 					initialOpen
 				>

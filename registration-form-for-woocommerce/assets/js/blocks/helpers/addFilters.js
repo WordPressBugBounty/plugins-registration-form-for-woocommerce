@@ -1,13 +1,16 @@
 import { addFilter } from '@wordpress/hooks';
 
 import {
+	withAgreementTextInspectorControl,
+	withCheckedByDefaultInspectorControl,
+	withConfirmEmailInspectorControl,
 	withFieldWidthClassName,
 	withNoPlaceholderInspectorControl,
 	withNumberAttributeInspectorControl,
 	withProfilePictureInspectorControl,
+	withReadOnlyInspectorControl,
 	withRoleSelectInspectorControl,
 	withShowInOrderEmailInspectorControl,
-	withReadOnlyInspectorControl,
 } from '../hoc';
 
 export default () => {
@@ -45,5 +48,20 @@ export default () => {
 		'tgwcfb.inspectorControls.required',
 		'tgwcfb/add-read-only-control',
 		withReadOnlyInspectorControl
+	);
+	addFilter(
+		'tgwcfb.inspectorControls.placeholder',
+		'tgwcfb/add-agreement-text-inspector-control',
+		withAgreementTextInspectorControl
+	);
+	addFilter(
+		'tgwcfb.inspectorControls.required',
+		'tgwcfb/add-checked-by-default-control',
+		withCheckedByDefaultInspectorControl
+	);
+	addFilter(
+		'tgwcfb.inspectorControls.fieldWidth',
+		'tgwcfb/add-confirm-email-control',
+		withConfirmEmailInspectorControl
 	);
 };

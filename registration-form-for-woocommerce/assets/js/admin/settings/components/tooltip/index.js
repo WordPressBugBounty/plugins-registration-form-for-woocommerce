@@ -1,5 +1,5 @@
 import { Popover } from '@wordpress/components';
-import { useEffect, useRef, useState } from '@wordpress/element';
+import { useRef, useState } from '@wordpress/element';
 
 export default ({
 	children,
@@ -8,33 +8,37 @@ export default ({
 	position = 'bottom center',
 	width = 200,
 }) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isTriggerHovered, setIsTriggerHovered] = useState(false);
+	const [isTooltipHovered, setIsTooltipHovered] = useState(false);
 	const ref = useRef();
-
-	useEffect(() => {
-		const el = ref.current;
-		if (!el) return;
-		el?.addEventListener('mouseenter', () => setIsOpen(true));
-		el?.addEventListener('mouseleave', () => setIsOpen(false));
-		return () => {
-			el?.removeEventListener('mouseenter', () => setIsOpen(true));
-			el?.removeEventListener('mouseleave', () => setIsOpen(false));
-		};
-	}, []);
 
 	if (disabled) return <>{children}</>;
 
+	const isOpen = isTriggerHovered || isTooltipHovered;
+
 	return (
-		<div ref={ref}>
+		<div
+			ref={ref}
+			onMouseEnter={() => setIsTriggerHovered(true)}
+			onMouseLeave={() => setIsTriggerHovered(false)}
+		>
 			{children}
 			{isOpen && (
 				<Popover
 					focusOnMount={false}
 					className="tgwcfb-tooltip"
 					position={position}
-					onClose={() => setIsOpen(false)}
-					onFocusOutside={() => setIsOpen(false)}
+					onClose={() => {
+						setIsTriggerHovered(false);
+						setIsTooltipHovered(false);
+					}}
+					onFocusOutside={() => {
+						setIsTriggerHovered(false);
+						setIsTooltipHovered(false);
+					}}
 					noArrow={false}
+					onMouseEnter={() => setIsTooltipHovered(true)}
+					onMouseLeave={() => setIsTooltipHovered(false)}
 				>
 					<div style={{ minWidth: width }} className="tgwcfb-tooltip-content">
 						{content}

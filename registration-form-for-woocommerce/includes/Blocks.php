@@ -88,6 +88,7 @@ class Blocks {
 		'tgwcfb/secondary-email',
 		'tgwcfb/phone',
 		'tgwcfb/file-upload',
+		'tgwcfb/gdpr-agreement',
 	);
 
 	/**

@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import store from './store';
 
 import './index.scss';
-import { GeneralSettings, SyncSettings, EmailSettings } from './pages';
+import { EmailSettings, GeneralSettings, SyncSettings } from './pages';
 
 const Settings = () => {
 	const [savingChanges, setSavingChanges] = useState(false);
@@ -42,7 +42,7 @@ const Settings = () => {
 		recaptchaV3SiteKey,
 		recaptchaV3SecreteKey,
 		hcaptchaSiteKey,
-		hcaptchaSecreteKey
+		hcaptchaSecreteKey,
 	} = useSelect((select) => {
 		const {
 			getFormId,
@@ -68,11 +68,11 @@ const Settings = () => {
 			captchaType: getCaptchaType(),
 			siteKey: getSiteKey(),
 			secretKey: getSecretKey(),
-			adminEmail:getAdminEmail(),
-			recaptchaV3SiteKey:getRecaptchaV3SiteKey(),
-			recaptchaV3SecreteKey:getRecaptchaV3SecreteKey(),
-			hcaptchaSiteKey:getHCaptchaSiteKey(),
-			hcaptchaSecreteKey:getHCaptchaSecreteKey()
+			adminEmail: getAdminEmail(),
+			recaptchaV3SiteKey: getRecaptchaV3SiteKey(),
+			recaptchaV3SecreteKey: getRecaptchaV3SecreteKey(),
+			hcaptchaSiteKey: getHCaptchaSiteKey(),
+			hcaptchaSecreteKey: getHCaptchaSecreteKey(),
 		};
 	});
 
@@ -112,9 +112,11 @@ const Settings = () => {
 			setCaptchaType(settings?._tgwcfb_captcha_type || '');
 			setSiteKey(settings?._tgwcfb_site_key || '');
 			setSecretKey(settings?._tgwcfb_secret_key || '');
-			setAdminEmail(JSON.parse(settings?._tgwcfb_admin_email_settings)||{});
+			setAdminEmail(JSON.parse(settings?._tgwcfb_admin_email_settings) || {});
 			setRecaptchaV3SiteKey(settings?._tgwcfb_recaptcha_v3_site_key || '');
-			setRecaptchaV3SecreteKey(settings?._tgwcfb_recaptcha_v3_secrete_key || '');
+			setRecaptchaV3SecreteKey(
+				settings?._tgwcfb_recaptcha_v3_secrete_key || ''
+			);
 			setHCaptchaSiteKey(settings?._tgwcfb_hcaptcha_site_key || '');
 			setHCaptchaSecreteKey(settings?._tgwcfb_hcaptcha_secrete_key || '');
 		});
@@ -136,11 +138,11 @@ const Settings = () => {
 			_tgwcfb_captcha_type: captchaType,
 			_tgwcfb_site_key: siteKey,
 			_tgwcfb_secret_key: secretKey,
-			_tgwcfb_admin_email_settings:JSON.stringify(adminEmail),
-			_tgwcfb_recaptcha_v3_site_key:recaptchaV3SiteKey,
-			_tgwcfb_recaptcha_v3_secrete_key:recaptchaV3SecreteKey,
-			_tgwcfb_hcaptcha_site_key:hcaptchaSiteKey,
-			_tgwcfb_hcaptcha_secrete_key:hcaptchaSecreteKey
+			_tgwcfb_admin_email_settings: JSON.stringify(adminEmail),
+			_tgwcfb_recaptcha_v3_site_key: recaptchaV3SiteKey,
+			_tgwcfb_recaptcha_v3_secrete_key: recaptchaV3SecreteKey,
+			_tgwcfb_hcaptcha_site_key: hcaptchaSiteKey,
+			_tgwcfb_hcaptcha_secrete_key: hcaptchaSecreteKey,
 		};
 
 		apiFetch({
@@ -205,9 +207,9 @@ const Settings = () => {
 								</svg>
 							}
 						/>
-						<h3 style={{ margin: 0 }}>
+						{/* <h3 style={{ margin: 0 }}>
 							Registration Form Fields For WooCommerce
-						</h3>
+						</h3> */}
 					</div>
 					<nav>
 						<NavLink to="/sync-settings">

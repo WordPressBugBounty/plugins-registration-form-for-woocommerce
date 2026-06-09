@@ -2,9 +2,9 @@
 Contributors: ThemeGrill
 Tags: registration, form fields, registration form, woocommerce registration, registration fields
 Requires at least: 5.5
-Tested up to: 6.8.1
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -83,6 +83,14 @@ Love Registration Form for WooCommerce? Why not check out more WordPress themes 
 6. General Settings
 
 == Changelog ==
+
+= 1.1.0       - 09-06-2026 =
+* Feature 	  - Added GDPR Agreement block.
+* Feature 	  - Added email confirmation field to the Email block.
+* Feature 	  - Added invisible reCaptcha v2 support.
+* Enhancement - Dashboard and Block settings UI/UX improvements.
+* Fix 		  - Tooltip-related issue.
+* Fix         - Prevented unauthorized role assignment during registration.
 
 = 1.0.9       - 09-07-2025 =
 * Fix         - Missing states for the selected country in the shipping and billing fields.

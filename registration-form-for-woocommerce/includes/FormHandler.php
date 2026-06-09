@@ -170,6 +170,14 @@ class FormHandler {
 				}
 			}
 
+			if ( 'tgwcfb/user-roles' === $type && ! empty( $value ) ) {
+				$allowed_roles = isset( $field['attrs']['roles'] ) ? array_keys( (array) $field['attrs']['roles'] ) : array();
+				if ( ! in_array( $value, $allowed_roles, true ) ) {
+					$errors->add( 'tgwcfb_user_roles_error', __( 'Invalid user role selected.', 'registration-form-for-woocommerce' ) );
+					$value = '';
+				}
+			}
+
 			$this->validate( $type, $field_name, $label, $required, $value, $errors );
 			$this->valid_data[ $field_name ] = array(
 				'label' => $label,
@@ -177,6 +185,8 @@ class FormHandler {
 				'value' => $value,
 			);
 		}
+
+		$this->validate_confirm_email( $_POST, $errors );
 
 		// Captcha verifications.
 		$captcha_type = get_option( '_tgwcfb_captcha_type', 'v2' );
@@ -192,19 +202,35 @@ class FormHandler {
 			$is_enabled = get_post_meta( $form_id, '_tgwcfb_recaptcha_v2', true );
 
 			if ( ! empty( $site_key ) && ! empty( $secret_key ) && $is_enabled ) {
-				$token        = ! empty( $_POST['g-recaptcha-response'] ) ? sanitize_textarea_field( wp_unslash( $_POST['g-recaptcha-response'] ) ) : false;
-				$raw_response = wp_safe_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret=$secret_key&response=$token" );
+				$token = isset( $_POST['g-recaptcha-response'] ) ? sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ) : '';
+				if ( empty( $token ) ) {
+					$errors->add( 'tgwcfb_recaptcha_missing', __( 'reCAPTCHA token is missing.', 'registration-form-for-woocommerce' ) );
+					return;
+				}
 
-				if ( ! is_wp_error( $raw_response ) ) {
-					$response = json_decode( wp_remote_retrieve_body( $raw_response ) );
-					if ( empty( $response->success ) ) {
-						$errors->add( 'tgwcfb_recaptcha_error', __( 'Google reCAPTCHA verification failed, please try again later.', 'registration-form-for-woocommerce' ) );
-					}
-				} else {
-					$errors->add( 'tgwcfb_recaptcha_error', __( 'Google reCAPTCHA verification failed, please try again later.', 'registration-form-for-woocommerce' ) );
+				$verify_url = add_query_arg(
+					array(
+						'secret'   => $secret_key,
+						'response' => $token,
+						'remoteip' => $_SERVER['REMOTE_ADDR'], // Optional but recommended
+					),
+					'https://www.google.com/recaptcha/api/siteverify'
+				);
+
+				$response = wp_safe_remote_get( $verify_url );
+
+				if ( is_wp_error( $response ) ) {
+					$errors->add( 'tgwcfb_recaptcha_http', __( 'Unable to verify reCAPTCHA. Please try again later.', 'registration-form-for-woocommerce' ) );
+					return;
+				}
+
+				$body = json_decode( wp_remote_retrieve_body( $response ) );
+
+				if ( empty( $body->success ) ) {
+					$errors->add( 'tgwcfb_recaptcha_failed', __( 'Google reCAPTCHA verification failed. Please try again.', 'registration-form-for-woocommerce' ) );
+					return;
 				}
 			}
-			// Handle reCAPTCHA v3
 		} elseif ( 'v3' === $captcha_type ) {
 			$site_key   = get_option( '_tgwcfb_recaptcha_v3_site_key' );
 			$secret_key = get_option( '_tgwcfb_recaptcha_v3_secrete_key' );
@@ -390,6 +416,7 @@ class FormHandler {
 				'value' => $value,
 			);
 		}
+		$this->validate_confirm_email( $_POST, $errors );
 
 		$this->form_id = get_option( '_tgwcfb_checkout_form_id' );
 	}
@@ -460,6 +487,8 @@ class FormHandler {
 				'value' => $value,
 			);
 		}
+
+		$this->validate_confirm_email( $_POST, $errors );
 		$this->is_update = true;
 		$this->form_id   = $form_id;
 
@@ -593,6 +622,32 @@ class FormHandler {
 		if ( empty( $data ) && $required ) {
 			/* Translators: Label */
 			$errors->add( "tgwcfb_{$field_name}_error", sprintf( __( '%s is required.', 'registration-form-for-woocommerce' ), "<strong>$label</strong>" ) );
+		}
+	}
+
+	/**
+	 * Validate confirm email matches entered email.
+	 *
+	 * @since 1.0.0
+	 * @param array    $request_data Request data.
+	 * @param WP_Error $errors       WP Error object.
+	 * @return void
+	 */
+	private function validate_confirm_email( $request_data, $errors ) {
+		if ( ! isset( $request_data['confirm_email'] ) ) {
+			return;
+		}
+
+		$confirm_email_value = sanitize_email( wp_unslash( $request_data['confirm_email'] ) );
+		$email_value         = isset( $request_data['email'] ) ? sanitize_email( wp_unslash( $request_data['email'] ) ) : '';
+
+		if ( empty( $confirm_email_value ) && ! empty( $email_value ) ) {
+			$errors->add( 'tgwcfb_confirm_email_error', __( 'Please confirm your email address.', 'registration-form-for-woocommerce' ) );
+			return;
+		}
+
+		if ( ! empty( $confirm_email_value ) && $email_value !== $confirm_email_value ) {
+			$errors->add( 'tgwcfb_confirm_email_error', __( 'Email addresses do not match.', 'registration-form-for-woocommerce' ) );
 		}
 	}
 }

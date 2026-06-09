@@ -1,3 +1,6 @@
+export { default as withAgreementTextInspectorControl } from './withAgreementTextInspectorControl';
+export { default as withCheckedByDefaultInspectorControl } from './withCheckedByDefaultInspectorControl';
+export { default as withConfirmEmailInspectorControl } from './withConfirmEmailInspectorControl';
 export { default as withFieldWidthClassName } from './withFieldWidthClassName';
 export { default as withNoPlaceholderInspectorControl } from './withNoPlaceholderInspectorControl';
 export { default as withNumberAttributeInspectorControl } from './withNumberAttributeInspectorControl';

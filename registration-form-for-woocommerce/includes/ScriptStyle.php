@@ -71,10 +71,26 @@ class ScriptStyle {
 				'maxUploadSize'     => wp_max_upload_size(),
 				'adminURL'          => admin_url(),
 				'homeURL'           => home_url(),
-				'captchaType'		=> get_option('_tgwcfb_captcha_type', 'v2')
+				'captchaType'       => get_option( '_tgwcfb_captcha_type', 'v2' ),
 			)
 		);
 		wp_register_style( 'tgwcfb-blocks', TGWCFB_ASSETS_DIR_URL . '/css/build/blocks.css', array(), $script_asset->version );
+	}
+
+	/**
+	 * Get script assets.
+	 *
+	 * @since 1.0.0
+	 * @param string $name Script name.
+	 * @return object
+	 */
+	private function get_script_assets( $name ) {
+		$script_asset_path = TGWCFB_ASSETS_DIR . "/js/build/$name.asset.php";
+		$script_asset      = file_exists( $script_asset_path ) ? require $script_asset_path : array(
+			'dependencies' => array(),
+			'version'      => filemtime( TGWCFB_ASSETS_DIR . "/js/build/$name.js" ),
+		);
+		return (object) $script_asset;
 	}
 
 	/**
@@ -98,6 +114,7 @@ class ScriptStyle {
 		wp_register_script( 'tgwcfb-jcrop', TGWCFB_ASSETS_DIR_URL . "/js/jquery-Jcrop/jquery.Jcrop$suffix.js", array( 'jquery' ), TGWCFB_VERSION, true );
 		wp_register_script( 'tgwcfb-profile-picture', TGWCFB_ASSETS_DIR_URL . '/js/build/frontend-profile-picture.js', array( 'tgwcfb-jcrop', 'tgwcfb-sweetalert2' ), $this->get_script_assets( 'frontend-profile-picture' )->version, true );
 		wp_register_script( 'tgwcfb-separate-shipping', TGWCFB_ASSETS_DIR_URL . '/js/build/frontend-separate-shipping.js', array( 'jquery' ), $this->get_script_assets( 'frontend-separate-shipping' )->version, true );
+		wp_register_script( 'tgwcfb-confirm-email', TGWCFB_ASSETS_DIR_URL . '/js/frontend/confirm-email.js', array( 'jquery' ), TGWCFB_VERSION, true );
 		wp_localize_script(
 			'tgwcfb-profile-picture',
 			'_TGWCFB_FRONTEND_',
@@ -114,12 +131,21 @@ class ScriptStyle {
 			)
 		);
 
+		$countries = array();
+
+		if ( function_exists( 'WC' ) ) {
+			$countries = array_merge(
+				\WC()->countries->get_allowed_country_states(),
+				\WC()->countries->get_shipping_country_states()
+			);
+		}
+
 		wp_localize_script(
 			'tgwcfb-separate-shipping',
 			'_TGWCFB_FRONTEND_COUNTRY_',
 			array(
-				'countries'              => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
-			'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'registration-form-for-woocommerce' ),
+				'countries'              => wp_json_encode( $countries ),
+				'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'registration-form-for-woocommerce' ),
 			)
 		);
 
@@ -173,6 +199,10 @@ class ScriptStyle {
 			wp_enqueue_style( 'tgwcfb-sweetalert2' );
 		}
 
+		if ( in_array( 'tgwcfb/email', $blocks, true ) ) {
+			wp_enqueue_script( 'tgwcfb-confirm-email' );
+		}
+
 		wp_enqueue_style( 'tgwcfb-frontend' );
 	}
 
@@ -188,6 +218,10 @@ class ScriptStyle {
 			wp_enqueue_script( 'tgwcfb-admin-user-edit', TGWCFB_ASSETS_DIR_URL . '/js/build/admin-user-edit.js', array( 'jquery', 'selectWoo', 'tgwcfb-flatpickr' ), $this->get_script_assets( 'admin-user-edit' )->version, true );
 			wp_enqueue_style( 'tgwcfb-admin-user-edit', TGWCFB_ASSETS_DIR_URL . '/css/build/admin-user-edit.css', array( 'select2', 'tgwcfb-flatpickr' ), $this->get_script_assets( 'admin-user-edit' )->version );
 		}
+		if ( 'edit-tgwcfb_form' === $current_screen->id ) {
+			wp_enqueue_script( 'tgwcfb-admin-all-forms', TGWCFB_ASSETS_DIR_URL . '/js/build/admin-all-forms.js', array( 'jquery' ), $this->get_script_assets( 'admin-all-forms' )->version, true );
+			wp_enqueue_style( 'tgwcfb-admin-all-forms', TGWCFB_ASSETS_DIR_URL . '/css/build/admin-all-forms.css', array( 'wp-components' ), $this->get_script_assets( 'admin-all-forms' )->version );
+		}
 		if ( 'tgwcfb_form_page_settings' === $current_screen->id ) {
 			wp_enqueue_editor();
 			wp_enqueue_script( 'tgwcfb-admin-settings', TGWCFB_ASSETS_DIR_URL . '/js/build/admin-settings.js', $this->get_script_assets( 'admin-settings' )->dependencies, $this->get_script_assets( 'admin-settings' )->version, true );
@@ -200,7 +234,7 @@ class ScriptStyle {
 				'tgwcfb-admin-settings',
 				'_TGWCFB_SETTINGS_',
 				array(
-					'adminURL' => admin_url(),
+					'adminURL'   => admin_url(),
 					'adminEmail' => $admin_email,
 				)
 			);
@@ -212,25 +246,9 @@ class ScriptStyle {
 			wp_enqueue_style( 'tgwcfb-admin-email', TGWCFB_ASSETS_DIR_URL . '/css/build/admin-email.css', array(), $this->get_script_assets( 'admin-email' )->version );
 		}
 
-		if ('edit-tgwcfb_form' === $current_screen->id || 'tgwcfb_form' === $current_screen->id) {
+		if ( 'edit-tgwcfb_form' === $current_screen->id || 'tgwcfb_form' === $current_screen->id ) {
 			wp_enqueue_style( 'tgwcfb-sweetalert2' );
-			wp_enqueue_script( 'tgwcfb-admin-upgrade-pro', TGWCFB_ASSETS_DIR_URL . '/js/build/upgrade-pro.js', array('jquery', 'tgwcfb-sweetalert2'), '', true );
+			wp_enqueue_script( 'tgwcfb-admin-upgrade-pro', TGWCFB_ASSETS_DIR_URL . '/js/build/upgrade-pro.js', array( 'jquery', 'tgwcfb-sweetalert2' ), '', true );
 		}
-	}
-
-	/**
-	 * Get script assets.
-	 *
-	 * @since 1.0.0
-	 * @param string $name Script name.
-	 * @return object
-	 */
-	private function get_script_assets( $name ) {
-		$script_asset_path = TGWCFB_ASSETS_DIR . "/js/build/$name.asset.php";
-		$script_asset      = file_exists( $script_asset_path ) ? require $script_asset_path : array(
-			'dependencies' => array(),
-			'version'      => filemtime( TGWCFB_ASSETS_DIR . "/js/build/$name.js" ),
-		);
-		return (object) $script_asset;
 	}
 }

@@ -23,6 +23,7 @@ use function ThemeGrill\WooCommerceRegistrationFormBuilder\translate_dynamic_str
 			<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
 			<?php wp_nonce_field( 'tgwcfb-register', 'tgwcfb-register-nonce' ); ?>
 			<input type="hidden" name="tgwcfb_id" value="<?php echo esc_attr( $form_id ); ?>">
+			<input type="hidden" name="register" value="1" />
 			<?php
 			$text = get_post_meta( $form_id, '_tgwcfb_submit_btn_text', true );
 			$text = empty( $text ) ? __( 'Register', 'registration-form-for-woocommerce' ) : $text;
