@@ -2,9 +2,9 @@
 Contributors: ThemeGrill
 Tags: registration, form fields, registration form, woocommerce registration, registration fields
 Requires at least: 5.5
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -46,7 +46,7 @@ Easily collect additional customer information by inserting custom form fields t
 
 [youtube https://youtu.be/xDrneXmJtl8]
 
-* **[Premium] Fields** Insert fields like Multi Select, Phone, Range, Date Picker, Time Picker, User Roles, and Profile Picture to your form.
+* **[Premium] Fields** Insert fields like Multi Select, Phone, Range, Date Picker, Time Picker, User Roles, Profile Picture, File Upload, and Confirm Password to your form.
 
 * **[Premium] Form Settings:** Set user approval settings as **Auto approval, Admin approval or Email confirmation**. Also, set user roles after registration according to the needs.
 
@@ -54,7 +54,7 @@ Easily collect additional customer information by inserting custom form fields t
 
 * **[Premium] Custom Checkout Form:** Assign selected form fields from custom registration form to WooCommerce checkout registration when **Allow registration in checkout** is enabled.
 
-👉 [Get the premium version!](https://woocommerce.com/products/registration-form-fields/)
+👉 [Get complete registration form customization with the Premium version!](https://themegrill.com/plugins/registration-form-for-woocommerce/)
 
 ==Explore More Products from Our Team==
 Love Registration Form for WooCommerce? Why not check out more WordPress themes and plugins from us?
@@ -83,6 +83,12 @@ Love Registration Form for WooCommerce? Why not check out more WordPress themes 
 6. General Settings
 
 == Changelog ==
+
+= 1.1.1       - 01-07-2026 =
+* Feature     - Added Confirm Password field (Pro).
+* Enhancement - Redesigned upgrade-to-pro popups across block inspector, sync, and advanced settings.
+* Enhancement - Redesigned pro-feature upgrade modal.
+* Enhancement - Updated admin sidebar "Upgrade to Pro" menu item with new crown icon.
 
 = 1.1.0       - 09-06-2026 =
 * Feature 	  - Added GDPR Agreement block.

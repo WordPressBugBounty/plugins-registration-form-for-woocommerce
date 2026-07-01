@@ -8,7 +8,8 @@ const disabledBlocks = [
     'tgwcfb/range',
     'tgwcfb/time-picker',
     'tgwcfb/user-roles',
-	'tgwcfb/file-upload'
+	'tgwcfb/file-upload',
+	'tgwcfb/confirm-password'
 ];
 
 const isBlocksLoaded = () => {

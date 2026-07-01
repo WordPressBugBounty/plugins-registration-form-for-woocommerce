@@ -1,7 +1,5 @@
 import {
-	Button,
 	ExternalLink,
-	Popover,
 	SelectControl,
 	TextControl,
 	ToggleControl,
@@ -9,8 +7,15 @@ import {
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+
+const UPGRADE_URL = 'https://themegrill.com/plugins/registration-form-for-woocommerce/';
+
+const CrownIcon = () => (
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+		<path d="m2 4 3 12h14l3-12-6 5-4-5-4 5-6-5zm3 16h14" />
+	</svg>
+);
 
 export default compose([
 	withSelect((select) => ({
@@ -25,16 +30,6 @@ export default compose([
 	const { setPostMeta, postMeta } = props;
 	const userRoles = window?._TGWCFB_EDITOR_?.userRoles || {};
 	const captchaType = window?._TGWCFB_EDITOR_?.captchaType || 'v2';
-	const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-
-	const showTooltip = () => {
-		setIsTooltipVisible(true);
-	};
-
-	const hideTooltip = () => {
-		setIsTooltipVisible(false);
-	};
-
 	return (
 		<PluginDocumentSettingPanel
 			name="_tgwcfb_settings"
@@ -188,82 +183,45 @@ export default compose([
 					}
 				/>
 			)}
-			<div
-				style={{
-					cursor: 'not-allowed',
-					opacity: 0.5,
-				}}
-				onMouseOver={showTooltip}
-				onMouseOut={hideTooltip}
-			>
-				<SelectControl
-					label={__(
-						'User approval option',
-						'registration-form-for-woocommerce'
-					)}
-					options={[{ label: 'Auto approval & auto login', value: '' }]}
-					style={{
-						cursor: 'not-allowed',
-						opacity: 0.5,
-					}}
-					disabled
-				/>
-				<ToggleControl
-					label={__('Assign user role', 'registration-form-for-woocommerce')}
-					help={__(
-						'Auto assign role to registered users through this form, if enabled it will ignore the User Role field',
-						'registration-form-for-woocommerce'
-					)}
-					disabled
-				/>
-				{isTooltipVisible && (
-					<Popover placement="left-top">
-						<div
-							style={{
-								width: '200px',
-								padding: '10px',
-								backgroundColor: '#2d2e2d',
-								color: 'white',
-							}}
-						>
-							<span>
-								{__(
-									'You are currently using the free version of our plugin. Please upgrade to premium version to use this feature.',
-									'registration-form-for-woocommerce'
-								)}
-							</span>
-							<div
-								style={{
-									display: 'flex',
-									justifyContent: 'end',
-								}}
-							>
-								<Button
-									style={{
-										backgroundColor: 'white',
-										color: 'blue',
-										margin: '5px',
-										border: 'none',
-										outline: 'none',
-										boxShadow: 'none',
-									}}
-								>
-									<a
-										style={{
-											textDecoration: 'none',
-											fontWeight: 'bold',
-										}}
-										href="https://woocommerce.com/products/registration-form-fields/"
-										rel="noreferrer"
-										target="_blank"
-									>
-										Upgrade To Pro
-									</a>
-								</Button>
-							</div>
-						</div>
-					</Popover>
-				)}
+			<div className="tgwcfb-pro" style={{ display: 'block', cursor: 'not-allowed' }}>
+				<span className="tgwcfb-pro__crown" aria-hidden="true" style={{ position: 'absolute', top: '2px', right: '0' }}>
+					<CrownIcon />
+				</span>
+				<span className="tgwcfb-pro__popup" role="tooltip">
+					<span className="tgwcfb-pro__popup-msg">
+						{__('This is a premium feature, please Upgrade to Pro.', 'registration-form-for-woocommerce')}
+					</span>
+					<a
+						className="tgwcfb-pro__popup-btn"
+						href={UPGRADE_URL}
+						target="_blank"
+						rel="noreferrer"
+						style={{ fontWeight: 500 }}
+					>
+						<span className="tgwcfb-pro__popup-btn-icon">
+							<CrownIcon />
+						</span>
+						{__('Upgrade to Pro', 'registration-form-for-woocommerce')}
+					</a>
+				</span>
+				<div style={{ opacity: 0.5, pointerEvents: 'none' }}>
+					<SelectControl
+						label={__(
+							'User approval option',
+							'registration-form-for-woocommerce'
+						)}
+						options={[{ label: 'Auto approval & auto login', value: '' }]}
+						disabled
+					/>
+					<ToggleControl
+						label={__('Assign user role', 'registration-form-for-woocommerce')}
+						help={__(
+							'Auto assign role to registered users through this form, if enabled it will ignore the User Role field',
+							'registration-form-for-woocommerce'
+						)}
+						disabled
+					/>
+				</div>
 			</div>
 		</PluginDocumentSettingPanel>
 	);

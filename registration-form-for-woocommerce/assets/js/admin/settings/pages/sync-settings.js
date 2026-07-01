@@ -3,7 +3,6 @@ import {
 	BaseControl,
 	Button,
 	ExternalLink,
-	Popover,
 	SelectControl,
 	Spinner,
 } from '@wordpress/components';
@@ -41,17 +40,26 @@ const CHECKOUT_BLOCKS = [
 const WC_ACCOUNT_SETTINGS_URL =
 	window._TGWCFB_SETTINGS_.adminURL + 'admin.php?page=wc-settings&tab=account';
 
+const UPGRADE_URL =
+	'https://themegrill.com/plugins/registration-form-for-woocommerce/';
+
+const CrownIcon = () => (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="11"
+		height="11"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+	>
+		<path d="m2 4 3 12h14l3-12-6 5-4-5-4 5-6-5zm3 16h14" />
+	</svg>
+);
+
 export default () => {
-	const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-
-	const showTooltip = () => {
-		setIsTooltipVisible(true);
-	};
-
-	const hideTooltip = () => {
-		setIsTooltipVisible(false);
-	};
-
 	const { forms, hasData, checkoutFields, checkoutFormId, formId } = useSelect(
 		(select) => {
 			// eslint-disable-next-line no-shadow
@@ -76,6 +84,8 @@ export default () => {
 
 	const { setFormId, setCheckoutFields, setCheckoutFormId } =
 		useDispatch('tgwcfb/settings');
+
+	const [checkoutProPopup, setCheckoutProPopup] = useState(false);
 
 	const fields = useCallback(() => {
 		if (0 === checkoutFormId) {
@@ -149,117 +159,105 @@ export default () => {
 
 	return (
 		<>
-			<BaseControl className="tgwcfb-setting">
-				<BaseControl.VisualLabel className="no-margin">
-					{__(
-						'Replace WooCommerce registration form',
-						'registration-form-for-woocommerce'
-					)}
-					<Tooltip
-						content={
-							<>
-								{__(
-									'Replace default WooCommerce registration form in My Account page. Allow registration in My Account page via ',
-									'registration-form-for-woocommerce'
-								)}
-								<ExternalLink href={WC_ACCOUNT_SETTINGS_URL}>
-									{__('WooCommerce > Settings > Accounts & Privacy')}
-								</ExternalLink>
-							</>
-						}
-						width={325}
-					>
-						<Button icon={'info-outline'} />
-					</Tooltip>
-				</BaseControl.VisualLabel>
-				<SelectControl
-					value={formId}
-					onChange={(v) => setFormId(parseInt(v))}
-					options={[
-						{ label: 'None', value: 0 },
-						...(forms || []).map((form) => ({
-							label:
-								form?.post_title ||
-								`(${__('no title', 'registration-form-for-woocommerce')})`,
-							value: form?.ID,
-						})),
-					]}
-					className="tgwcfb-setting"
-				/>
-			</BaseControl>
-			<div
-				style={{
-					cursor: 'not-allowed',
-					opacity: '0.5',
-				}}
-				onMouseEnter={showTooltip}
-				onMouseLeave={hideTooltip}
-			>
+			<div style={{ marginBottom: '28px' }}>
 				<BaseControl className="tgwcfb-setting">
 					<BaseControl.VisualLabel className="no-margin">
-						{__('Checkout form', 'registration-form-for-woocommerce')}
-						<Tooltip width={325} disabled>
+						{__(
+							'Replace WooCommerce registration form',
+							'registration-form-for-woocommerce'
+						)}
+						<Tooltip
+							content={
+								<>
+									{__(
+										'Replace default WooCommerce registration form in My Account page. Allow registration in My Account page via ',
+										'registration-form-for-woocommerce'
+									)}
+									<ExternalLink href={WC_ACCOUNT_SETTINGS_URL}>
+										{__('WooCommerce > Settings > Accounts & Privacy')}
+									</ExternalLink>
+								</>
+							}
+							width={325}
+						>
 							<Button icon={'info-outline'} />
 						</Tooltip>
+					</BaseControl.VisualLabel>
+					<SelectControl
+						value={formId}
+						onChange={(v) => setFormId(parseInt(v))}
+						options={[
+							{ label: 'None', value: 0 },
+							...(forms || []).map((form) => ({
+								label:
+									form?.post_title ||
+									`(${__('no title', 'registration-form-for-woocommerce')})`,
+								value: form?.ID,
+							})),
+						]}
+						className="tgwcfb-setting"
+					/>
+				</BaseControl>
+			</div>
+
+			<div style={{ marginBottom: '28px' }}>
+				<BaseControl className="tgwcfb-setting">
+					<BaseControl.VisualLabel className="no-margin">
+						<span style={{ opacity: 0.5, marginBottom: '6px' }}>
+							{__('Checkout form', 'registration-form-for-woocommerce')}
+						</span>
+						<span
+							className="tgwcfb-pro"
+							style={{ marginLeft: '6px' }}
+							onMouseEnter={() => setCheckoutProPopup(true)}
+							onMouseLeave={() => setCheckoutProPopup(false)}
+						>
+							<span className="tgwcfb-pro__crown" aria-hidden="true">
+								<CrownIcon />
+							</span>
+							<span
+								className="tgwcfb-pro__popup"
+								role="tooltip"
+								style={{
+									opacity: checkoutProPopup ? 1 : 0,
+									visibility: checkoutProPopup ? 'visible' : 'hidden',
+									pointerEvents: checkoutProPopup ? 'auto' : 'none',
+									transform: checkoutProPopup
+										? 'translateX(-50%) translateY(0)'
+										: 'translateX(-50%) translateY(6px)',
+								}}
+								onMouseEnter={() => setCheckoutProPopup(true)}
+								onMouseLeave={() => setCheckoutProPopup(false)}
+							>
+								<span className="tgwcfb-pro__popup-msg">
+									{__('This is a premium feature, please Upgrade to Pro.', 'registration-form-for-woocommerce')}
+								</span>
+								<a
+									className="tgwcfb-pro__popup-btn"
+									href={UPGRADE_URL}
+									target="_blank"
+									rel="noopener noreferrer"
+									style={{ fontWeight: 500 }}
+								>
+									<span className="tgwcfb-pro__popup-btn-icon">
+										<CrownIcon />
+									</span>
+									{__('Upgrade to Pro', 'registration-form-for-woocommerce')}
+								</a>
+							</span>
+						</span>
 					</BaseControl.VisualLabel>
 					<SelectControl
 						options={[{ label: 'None', value: 0 }]}
 						className="tgwcfb-setting"
 						disabled
 						style={{
+							opacity: 0.5,
 							cursor: 'not-allowed',
-							opacity: '0.5',
+							pointerEvents: 'none',
 						}}
 					/>
 				</BaseControl>
-				{isTooltipVisible && (
-					<Popover position="top right top">
-						<div
-							style={{
-								width: '200px',
-								padding: '10px',
-								backgroundColor: '#2d2e2d',
-								color: 'white',
-							}}
-						>
-							<span>
-								{__(
-									'You are currently using the free version of our plugin. Please upgrade to premium version to use this feature.',
-									'registration-form-for-woocommerce'
-								)}
-							</span>
-							<div
-								style={{
-									display: 'flex',
-									justifyContent: 'end',
-								}}
-							>
-								<Button
-									style={{
-										backgroundColor: 'white',
-										color: 'blue',
-										margin: '5px',
-										border: 'none',
-										outline: 'none',
-										boxShadow: 'none',
-									}}
-								>
-									<a
-										style={{
-											textDecoration: 'none',
-											fontWeight: 'bold',
-										}}
-										href="https://woocommerce.com/products/registration-form-fields/"
-										rel="noreferrer"
-										target="_blank"
-									>
-										{__('Upgrade To Pro', 'registration-form-for-woocommerce')}
-									</a>
-								</Button>
-							</div>
-						</div>
-					</Popover>
-				)}
 			</div>
 		</>
 	);

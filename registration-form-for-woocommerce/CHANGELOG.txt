@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.1.1       - 01-07-2026 =
+* Feature     - Added Confirm Password field (Pro).
+* Enhancement - Redesigned upgrade-to-pro popups across block inspector, sync, and advanced settings.
+* Enhancement - Redesigned pro-feature upgrade modal.
+* Enhancement - Updated admin sidebar "Upgrade to Pro" menu item with new crown icon.
+
 = 1.1.0       - 09-06-2026 =
 * Feature 	  - Added GDPR Agreement block.
 * Feature 	  - Added email confirmation field to the Email block.

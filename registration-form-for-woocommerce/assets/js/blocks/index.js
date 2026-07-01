@@ -32,6 +32,7 @@ import {
 	registerCustomUserRolesBlock,
 } from './custom';
 import {
+	registerDefaultConfirmPasswordBlock,
 	registerDefaultDisplayNameBlock,
 	registerDefaultEmailBlock,
 	registerDefaultFirstnameBlock,
@@ -75,6 +76,7 @@ autoRecoverBlocks();
 registerDefaultUsernameBlock();
 registerDefaultEmailBlock();
 registerDefaultPasswordBlock();
+registerDefaultConfirmPasswordBlock();
 registerDefaultFirstnameBlock();
 registerDefaultLastnameBlock();
 registerDefaultDisplayNameBlock();

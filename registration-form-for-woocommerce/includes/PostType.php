@@ -41,6 +41,7 @@ class PostType {
 		add_filter( 'months_dropdown_results', array( $this, 'remove_date_filter' ), 10, 2 );
 		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		add_action( 'admin_menu', array( $this, 'add_submenu' ) );
+		add_action( 'admin_head', array( $this, 'upgrade_menu_styles' ) );
 		add_action( 'admin_footer', array( $this, 'print_shortcode_copy_script' ) );
 		add_action( 'admin_footer', array( $this, 'add_editor_header_text' ) );
 		add_filter( 'pll_get_post_types', array( $this, 'add_tgwcfb_to_pll' ) );
@@ -84,6 +85,63 @@ class PostType {
 		);
 
 		remove_submenu_page( 'edit.php?post_type=tgwcfb_form', 'settings' );
+
+		$upgrade_url = 'https://themegrill.com/plugins/registration-form-for-woocommerce/';
+
+		add_submenu_page(
+			'edit.php?post_type=tgwcfb_form',
+			'',
+			'<span class="tgwcfb-upgrade-menu-item"><span class="tgwcfb-upgrade-menu-crown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg></span>' . esc_html__( 'Upgrade to Pro', 'registration-form-for-woocommerce' ) . '</span>',
+			'manage_options',
+			esc_url( $upgrade_url ),
+			null
+		);
+	}
+
+	/**
+	 * Output styles and script for the Upgrade to Pro menu item.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function upgrade_menu_styles() {
+		?>
+		<style>
+		#adminmenu .tgwcfb-upgrade-menu-item {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			color: #ff8c39 !important;
+			font-weight: 600;
+		}
+		#adminmenu .tgwcfb-upgrade-menu-crown {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+		}
+		#adminmenu .tgwcfb-upgrade-menu-crown svg {
+			width: 16px;
+			height: 16px;
+			stroke: currentColor;
+			fill: none;
+		}
+		#adminmenu a:hover .tgwcfb-upgrade-menu-item {
+			color: #ffb27a !important;
+		}
+		</style>
+		<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var item = document.querySelector('#adminmenu .tgwcfb-upgrade-menu-item');
+			if (item) {
+				var link = item.closest('a');
+				if (link) {
+					link.setAttribute('target', '_blank');
+					link.setAttribute('rel', 'noopener noreferrer');
+				}
+			}
+		});
+		</script>
+		<?php
 	}
 
 	/**

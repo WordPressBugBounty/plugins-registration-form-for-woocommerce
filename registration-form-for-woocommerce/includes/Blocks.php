@@ -29,6 +29,7 @@ class Blocks {
 		'tgwcfb/username',
 		'tgwcfb/email',
 		'tgwcfb/password',
+		'tgwcfb/confirm-password',
 		'tgwcfb/first-name',
 		'tgwcfb/last-name',
 		'tgwcfb/display-name',

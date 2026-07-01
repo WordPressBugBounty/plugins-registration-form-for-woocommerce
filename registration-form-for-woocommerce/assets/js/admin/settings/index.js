@@ -3,13 +3,40 @@ import { Button, Icon } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { render, useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { HashRouter, NavLink, Route, Switch } from 'react-router-dom';
+import { HashRouter, NavLink, Route, Switch, useLocation } from 'react-router-dom';
 import { Slide, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import store from './store';
 
 import './index.scss';
-import { EmailSettings, GeneralSettings, SyncSettings } from './pages';
+import { AdvancedSettings, EmailSettings, GeneralSettings, SyncSettings } from './pages';
+
+// Tabs that are entirely Pro-locked — Save changes is disabled here.
+const LOCKED_ROUTES = ['/advanced-settings'];
+
+const SaveButton = ({ onClick, savingChanges }) => {
+	const location = useLocation();
+	const isLocked = LOCKED_ROUTES.includes(location.pathname);
+	const isDisabled = !!savingChanges || isLocked;
+
+	return (
+		<Button
+			onClick={isDisabled ? undefined : onClick}
+			className="is-primary"
+			isBusy={!!savingChanges}
+			disabled={isDisabled}
+			aria-disabled={isDisabled}
+			variant="primary"
+			style={
+				isDisabled
+					? { opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none' }
+					: undefined
+			}
+		>
+			{__('Save changes', 'registration-form-for-woocommerce')}
+		</Button>
+	);
+};
 
 const Settings = () => {
 	const [savingChanges, setSavingChanges] = useState(false);
@@ -218,6 +245,9 @@ const Settings = () => {
 						<NavLink to="/general-settings">
 							{__('General Settings', 'registration-form-for-woocommerce')}
 						</NavLink>
+						<NavLink to="/advanced-settings">
+							{__('Advanced Settings', 'registration-form-for-woocommerce')}
+						</NavLink>
 						<NavLink to="/email-settings">
 							{__('Email', 'registration-form-for-woocommerce')}
 						</NavLink>
@@ -233,17 +263,17 @@ const Settings = () => {
 								exact
 							/>
 							<Route path="/email-settings" component={EmailSettings} exact />
+							<Route
+								path="/advanced-settings"
+								component={AdvancedSettings}
+								exact
+							/>
 						</Switch>
 						{hasData && (
-							<Button
+							<SaveButton
 								onClick={saveChanges}
-								className="is-primary"
-								isBusy={!!savingChanges}
-								disabled={!!savingChanges}
-								variant="primary"
-							>
-								{__('Save changes', 'registration-form-for-woocommerce')}
-							</Button>
+								savingChanges={savingChanges}
+							/>
 						)}
 						<ToastContainer />
 					</div>

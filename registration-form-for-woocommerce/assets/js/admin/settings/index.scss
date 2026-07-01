@@ -322,3 +322,135 @@
 	direction: row;
 	gap: 5px;
 }
+
+/* Pro crown badge + popup (matches CMAP design) */
+.tgwcfb-pro {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	vertical-align: middle;
+
+	&:hover .tgwcfb-pro__popup,
+	.tgwcfb-pro__popup:hover {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: translateX(-50%) translateY(0);
+	}
+}
+
+.tgwcfb-pro__crown {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	background: #ff8c39;
+	border-radius: 4px;
+	color: #fff;
+	cursor: pointer;
+	flex-shrink: 0;
+
+	svg {
+		width: 12px;
+		height: 12px;
+
+		path {
+			stroke: #fff;
+		}
+	}
+}
+
+.tgwcfb-pro__popup {
+	position: absolute;
+	top: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%) translateY(6px);
+	width: 240px;
+	padding: 20px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+	z-index: 999999;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+	text-align: left;
+	white-space: normal;
+
+	// hover bridge — fills gap between crown and card so cursor can reach the button
+	&::before {
+		content: "";
+		position: absolute;
+		top: -10px;
+		left: 0;
+		right: 0;
+		height: 10px;
+	}
+
+	// arrow pointing up to the crown
+	&::after {
+		content: "";
+		position: absolute;
+		top: -7px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 0 7px 7px;
+		border-color: transparent transparent #fff;
+		filter: drop-shadow(0 -1px 0 #e5e7eb);
+	}
+}
+
+.tgwcfb-pro__popup-msg {
+	display: block;
+	font-size: 13px;
+	color: #374151;
+	margin: 0 0 12px;
+	line-height: 1.5;
+	font-weight: normal;
+	text-transform: none;
+}
+
+.tgwcfb-pro__popup-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 14px;
+	background: #ff8c39;
+	color: #fff !important;
+	border-radius: 6px;
+	font-size: 13px;
+	font-weight: 500 !important;
+	text-decoration: none !important;
+	text-transform: none;
+	line-height: 1;
+	transition: background 0.15s ease;
+
+	&:hover {
+		background: #e87b2a;
+		color: #fff !important;
+	}
+
+	svg path {
+		stroke: #fff;
+	}
+}
+
+.tgwcfb-pro__popup-btn-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+
+	svg {
+		width: 12px;
+		height: 12px;
+	}
+}

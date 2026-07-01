@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Registration Form For WooCommerce
  * Description: Drag and drop WooCommerce registration form builder.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Requires at least: 5.5
  * Requires PHP: 7.4
  * Author: ThemeGrill
@@ -45,7 +45,7 @@ if ( in_array( 'custom-registration-form-fields-builder-for-woocommerce/custom-r
 	return;
 }
 
-! defined( 'TGWCFB_VERSION' ) && define( 'TGWCFB_VERSION', '1.1.0' );
+! defined( 'TGWCFB_VERSION' ) && define( 'TGWCFB_VERSION', '1.1.1' );
 ! defined( 'TGWCFB_PLUGIN_FILE' ) && define( 'TGWCFB_PLUGIN_FILE', __FILE__ );
 ! defined( 'TGWCFB_PLUGIN_DIR' ) && define( 'TGWCFB_PLUGIN_DIR', __DIR__ );
 ! defined( 'TGWCFB_PLUGIN_DIR_URL' ) && define( 'TGWCFB_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );

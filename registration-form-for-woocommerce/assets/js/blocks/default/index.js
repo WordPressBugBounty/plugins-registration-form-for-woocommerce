@@ -1,3 +1,4 @@
+export { default as registerDefaultConfirmPasswordBlock } from './confirm-password';
 export { default as registerDefaultDisplayNameBlock } from './displayname';
 export { default as registerDefaultEmailBlock } from './email';
 export { default as registerDefaultFirstnameBlock } from './firstname';

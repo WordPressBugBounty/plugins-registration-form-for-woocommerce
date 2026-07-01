@@ -1,7 +1,14 @@
-import { Button, Popover, ToggleControl } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+
+const UPGRADE_URL = 'https://themegrill.com/plugins/registration-form-for-woocommerce/';
+
+const CrownIcon = () => (
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+		<path d="m2 4 3 12h14l3-12-6 5-4-5-4 5-6-5zm3 16h14" />
+	</svg>
+);
 
 export default createHigherOrderComponent((Component) => {
 	return (props) => {
@@ -15,77 +22,35 @@ export default createHigherOrderComponent((Component) => {
 				'tgwcfb/gdpr-agreement',
 			].includes(props.name)
 		) {
-			const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-
-			const showTooltip = () => {
-				setIsTooltipVisible(true);
-			};
-
-			const hideTooltip = () => {
-				setIsTooltipVisible(false);
-			};
 			return (
 				<>
-					<div
-						style={{
-							cursor: 'not-allowed',
-							opacity: '0.5',
-						}}
-						onMouseOver={showTooltip}
-						onMouseOut={hideTooltip}
-					>
-						<ToggleControl
-							label={__('Show in order', 'registration-form-for-woocommerce')}
-							disabled
-						/>
-						{isTooltipVisible && (
-							<Popover placement="left-top">
-								<div
-									style={{
-										width: '200px',
-										padding: '10px',
-										backgroundColor: '#2d2e2d',
-										color: 'white',
-									}}
-								>
-									<span>
-										{__(
-											'You are currently using the free version of our plugin. Please upgrade to premium version to use this feature.',
-											'registration-form-for-woocommerce'
-										)}
-									</span>
-									<div
-										style={{
-											display: 'flex',
-											justifyContent: 'end',
-										}}
-									>
-										<Button
-											style={{
-												backgroundColor: 'white',
-												color: 'blue',
-												margin: '5px',
-												border: 'none',
-												outline: 'none',
-												boxShadow: 'none',
-											}}
-										>
-											<a
-												style={{
-													textDecoration: 'none',
-													fontWeight: 'bold',
-												}}
-												href="https://woocommerce.com/products/registration-form-fields/"
-												rel="noreferrer"
-												target="_blank"
-											>
-												Upgrade To Pro
-											</a>
-										</Button>
-									</div>
-								</div>
-							</Popover>
-						)}
+					<div className="tgwcfb-pro" style={{ display: 'block', cursor: 'not-allowed' }}>
+						<span className="tgwcfb-pro__crown" aria-hidden="true" style={{ position: 'absolute', top: '2px', right: '0' }}>
+							<CrownIcon />
+						</span>
+						<span className="tgwcfb-pro__popup" role="tooltip">
+							<span className="tgwcfb-pro__popup-msg">
+								{__('This is a premium feature, please Upgrade to Pro.', 'registration-form-for-woocommerce')}
+							</span>
+							<a
+								className="tgwcfb-pro__popup-btn"
+								href={UPGRADE_URL}
+								target="_blank"
+								rel="noreferrer"
+								style={{ fontWeight: 500 }}
+							>
+								<span className="tgwcfb-pro__popup-btn-icon">
+									<CrownIcon />
+								</span>
+								{__('Upgrade to Pro', 'registration-form-for-woocommerce')}
+							</a>
+						</span>
+						<div style={{ opacity: 0.5, pointerEvents: 'none' }}>
+							<ToggleControl
+								label={__('Show in order', 'registration-form-for-woocommerce')}
+								disabled
+							/>
+						</div>
 					</div>
 					<Component {...props} />
 				</>
