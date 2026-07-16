@@ -54,7 +54,7 @@ Easily collect additional customer information by inserting custom form fields t
 
 * **[Premium] Custom Checkout Form:** Assign selected form fields from custom registration form to WooCommerce checkout registration when **Allow registration in checkout** is enabled.
 
-👉 [Get complete registration form customization with the Premium version!](https://themegrill.com/plugins/registration-form-for-woocommerce/)
+👉 [Get complete Registration Form for WooCommerce with the Premium version!](https://themegrill.com/plugins/registration-form-for-woocommerce/)
 
 ==Explore More Products from Our Team==
 Love Registration Form for WooCommerce? Why not check out more WordPress themes and plugins from us?

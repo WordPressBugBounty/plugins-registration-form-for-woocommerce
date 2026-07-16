@@ -168,6 +168,7 @@ wp.domReady(function () {
 		'tgwcfb/time-picker',
 		'tgwcfb/user-roles',
 		'tgwcfb/file-upload',
+		'tgwcfb/confirm-password',
 	];
 
 	setTimeout(function () {

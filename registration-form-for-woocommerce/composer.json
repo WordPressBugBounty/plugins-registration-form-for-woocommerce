@@ -1,0 +1,51 @@
+{
+  "name": "themegrill/custom-registration-form-fields-builder-for-woocommercec",
+  "description": "A plugin for adding custom fields for WooCommerce registration form.",
+  "autoload": {
+    "files": [
+      "includes/Functions/CoreFunctions.php"
+    ],
+    "psr-4": {
+      "ThemeGrill\\WooCommerceRegistrationFormBuilder\\": "includes/"
+    }
+  },
+  "authors": [
+    {
+      "name": "wpeverest",
+      "email": "support@wpeverest.com"
+    }
+  ],
+  "require-dev": {
+    "wp-cli/i18n-command": "^2.2"
+  },
+  "scripts": {
+    "phpcs": [
+      "phpcs -s -p"
+    ],
+    "phpcs-pre-commit": [
+      "phpcs -s -p -n"
+    ],
+    "phpcbf": [
+      "phpcbf -p"
+    ],
+    "makepot-audit": [
+      "wp i18n make-pot . --slug=registration-form-for-woocommerce"
+    ],
+    "makepot": [
+      "\"vendor/bin/wp\" i18n make-pot . ./languages/registration-form-for-woocommerce.pot --include=\"assets/js/build,includes\""
+    ]
+  },
+  "extra": {
+    "scripts-description": {
+      "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+      "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
+      "makepot-audit": "Generate langauges/registration-form-for-woocommerce.pot file and run audit",
+      "makepot": "Generate langauges/registration-form-for-woocommerce.pot file"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

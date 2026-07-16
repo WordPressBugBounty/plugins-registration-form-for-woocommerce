@@ -35,10 +35,4 @@ export default {
 		type: Boolean,
 		default: false,
 	},
-	lock: {
-		type: Object,
-		default: {
-			remove: true,
-		},
-	},
 };
