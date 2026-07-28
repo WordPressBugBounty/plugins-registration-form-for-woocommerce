@@ -114,7 +114,58 @@ class Blocks {
 			add_filter( 'allowed_block_types', array( $this, 'allowed_blocks' ), PHP_INT_MAX, 2 );
 		}
 		add_action( 'init', array( $this, 'register_blocks' ) );
+		add_filter( 'block_editor_settings_all', array( $this, 'inject_editor_critical_styles' ), 10, 2 );
 		do_action( 'tgwcfb_blocks_unhook' );
+	}
+
+	/**
+	 * Inject critical layout CSS into the block editor settings.
+	 *
+	 * Centering rules live in blocks.css (loaded async as an editor_style
+	 * <link> inside the iframe). Without them on first paint, the post title
+	 * renders full-width on the left, then snaps to center — causing a jerk.
+	 * Styles in the editor settings array are inlined into the iframe document
+	 * before first paint.
+	 *
+	 * @since 1.1.2
+	 * @param array                    $settings Editor settings.
+	 * @param \WP_Block_Editor_Context $context  Editor context.
+	 * @return array
+	 */
+	public function inject_editor_critical_styles( $settings, $context ) {
+		$post = isset( $context->post ) ? $context->post : null;
+
+		if ( ! $post || 'tgwcfb_form' !== $post->post_type ) {
+			return $settings;
+		}
+
+		$critical_css = '
+			.edit-post-visual-editor__post-title-wrapper,
+			.editor-visual-editor__post-title-wrapper,
+			.editor-post-title,
+			.editor-post-title__block,
+			.wp-block.editor-post-title,
+			.block-editor-block-list__layout,
+			.is-root-container {
+				max-width: 650px !important;
+				margin-left: auto !important;
+				margin-right: auto !important;
+			}
+		';
+
+		if ( ! isset( $settings['styles'] ) || ! is_array( $settings['styles'] ) ) {
+			$settings['styles'] = array();
+		}
+
+		array_unshift(
+			$settings['styles'],
+			array(
+				'css'            => $critical_css,
+				'__unstableType' => 'plugin',
+			)
+		);
+
+		return $settings;
 	}
 
 	/**

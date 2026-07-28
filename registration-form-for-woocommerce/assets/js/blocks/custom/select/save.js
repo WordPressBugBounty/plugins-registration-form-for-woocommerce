@@ -28,7 +28,7 @@ export default (props) => {
 				{label} {required && <span className="required">*</span>}
 			</label>
 			<select
-				className="tgwcfb-select tgwcfb-enhanced-select"
+				className="tgwcfb-select"
 				name={`select_${clientId}`}
 				id={`select_${clientId}`}
 			>

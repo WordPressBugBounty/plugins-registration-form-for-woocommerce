@@ -4,6 +4,8 @@
 	justify-content: flex-start;
 	flex-direction: row;
 	column-gap: 10px;
+	max-width: 100%;
+	box-sizing: border-box;
 
 	&.woocommerce-account-fields {
 		display: block;
@@ -15,6 +17,13 @@
 		}
 	}
 
+	.form-row,
+	[class*='field-width-'] {
+		min-width: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
 	p:not( .form-row ),
 	.field-width-100 {
 		flex: 0 0 100%;
@@ -22,6 +31,52 @@
 
 	.field-width-50 {
 		flex: 0 0 calc(50% - 5px);
+	}
+
+	.tgwcfb-select:not(.select2-hidden-accessible),
+	.select2-container {
+		width: 100% !important;
+		max-width: 100%;
+		box-sizing: border-box;
+		height: 49px;
+		min-height: 49px;
+	}
+
+	.select2-container .select2-selection--single {
+		height: 49px;
+		display: flex;
+		align-items: center;
+	}
+
+	.select2-container .select2-selection--single .select2-selection__rendered {
+		line-height: 47px;
+		padding-left: 16px;
+	}
+
+	.select2-container .select2-selection--single .select2-selection__arrow {
+		height: 47px;
+	}
+
+	.select2-container .select2-selection--multiple {
+		min-height: 49px;
+	}
+
+	/* Keep Select2's visually-hidden original <select> from sizing or capturing clicks. */
+	select.tgwcfb-select.select2-hidden-accessible {
+		position: absolute !important;
+		width: 1px !important;
+		max-width: 1px !important;
+		min-width: 0 !important;
+		height: 1px !important;
+		min-height: 0 !important;
+		margin: -1px !important;
+		padding: 0 !important;
+		overflow: hidden !important;
+		clip: rect(0, 0, 0, 0) !important;
+		clip-path: inset(50%) !important;
+		border: 0 !important;
+		white-space: nowrap !important;
+		pointer-events: none !important;
 	}
 }
 

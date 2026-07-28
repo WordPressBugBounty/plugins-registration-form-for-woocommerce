@@ -8,7 +8,8 @@
 }
 
 .tgwcfb-select {
-	min-height: 38px !important;
+	height: 49px !important;
+	min-height: 49px !important;
 	max-width: 100%;
 	padding: 0 16px;
 	border-radius: 4px;
@@ -76,7 +77,7 @@
 	min-height: 36px !important;
 }
 
-.tgwcfb-select {
+.tgwcfb-select:not(.select2-hidden-accessible) {
 	width: 100% !important;
 	max-width: 100% !important;
 }
@@ -194,10 +195,81 @@
 	margin-bottom: 24px;
 }
 
-.tgwcfb-shortcode-wrapper {
-	display: flex;
-	margin-right: 12px;
+.tgwcfb-shortcode-wrapper,
+.tgwcfb-header-actions {
+	/* Invisible until inside header settings — prevents below-header flash on load. */
+	opacity: 0;
+	pointer-events: none;
+}
 
+.editor-header__settings .tgwcfb-shortcode-wrapper,
+.edit-post-header__settings .tgwcfb-shortcode-wrapper,
+.editor-header__settings .tgwcfb-header-actions,
+.edit-post-header__settings .tgwcfb-header-actions {
+	opacity: 1;
+	pointer-events: auto;
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	margin-right: 12px;
+	gap: 8px;
+}
+
+.tgwcfb-header-shortcode-wrap {
+	display: flex;
+	align-items: center;
+	gap: 0;
+
+	> input,
+	.tgwcfb-header-shortcode-input {
+		width: 280px;
+		height: 36px;
+		min-height: 36px;
+		padding: 4px 8px;
+		margin: 0;
+		box-sizing: border-box;
+		font-size: 12px;
+		font-family: monospace;
+		border: 1px solid #ddd;
+		border-radius: 2px 0 0 2px;
+		background: #fff;
+		box-shadow: none;
+		color: #1e1e1e;
+	}
+
+	> button,
+	.tgwcfb-header-copy-shortcode.components-button {
+		height: 36px;
+		min-height: 36px;
+		min-width: 36px;
+		padding: 4px;
+		border-radius: 0 2px 2px 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			fill: none;
+			stroke: currentColor;
+		}
+	}
+}
+
+.tgwcfb-header-copy-wrap {
+	display: inline-flex;
+}
+
+/* Header action tooltips (Copy) — white surface. */
+body.post-type-tgwcfb_form .components-tooltip {
+	background: #fff;
+	color: #1e1e1e;
+	border: 1px solid #dcdcde;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	padding: 6px 10px;
+	border-radius: 4px;
+}
+
+.tgwcfb-shortcode-wrapper {
 	> input {
 		padding: 0 6px;
 		margin: 0;
@@ -213,6 +285,16 @@
 			fill: #fff;
 		}
 	}
+}
+
+.edit-post-visual-editor__post-title-wrapper,
+.editor-visual-editor__post-title-wrapper,
+.editor-post-title,
+.editor-post-title__block,
+.wp-block.editor-post-title {
+	max-width: 650px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 }
 
 [class*='tgwcfb_form_'] {

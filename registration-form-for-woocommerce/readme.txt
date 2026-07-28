@@ -4,7 +4,7 @@ Tags: registration, form fields, registration form, woocommerce registration, re
 Requires at least: 5.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -83,6 +83,13 @@ Love Registration Form for WooCommerce? Why not check out more WordPress themes 
 6. General Settings
 
 == Changelog ==
+
+= 1.1.2       - 28-07-2026 =
+* Fix         - Redirect after successful registration ignored configured URL.
+* Fix         - Select field causing horizontal page scroll.
+* Fix         - Select field options not opening/closing correctly.
+* Fix         - New form alignment issue on editor.
+* Fix         - Shortcode position issue.
 
 = 1.1.1       - 01-07-2026 =
 * Feature     - Added Confirm Password field (Pro).

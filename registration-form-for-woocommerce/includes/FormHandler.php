@@ -64,7 +64,8 @@ class FormHandler {
 		add_action( 'woocommerce_save_account_details_errors', array( $this, 'validate_edit_account_fields' ), 10, 1 );
 		add_action( 'woocommerce_save_account_details', array( $this, 'save_fields' ) );
 		add_action( 'user_register', array( $this, 'save_fields' ) );
-		add_filter( 'woocommerce_registration_redirect', array( $this, 'change_redirect_url' ) );
+		add_action( 'woocommerce_created_customer', array( $this, 'disable_forced_login' ) );
+		add_filter( 'woocommerce_registration_redirect', array( $this, 'change_redirect_url' ), 99 );
 		add_filter( 'woocommerce_add_error', array( $this, 'change_login_link' ) );
 		do_action( 'tgwcfb_form_handler_unhook' );
 	}
@@ -125,8 +126,9 @@ class FormHandler {
 			return;
 		}
 
-		$form_id = intval( wp_unslash( $_POST['tgwcfb_id'] ) );
-		$fields  = get_blocks( $form_id );
+		$form_id       = absint( wp_unslash( $_POST['tgwcfb_id'] ) );
+		$this->form_id = $form_id;
+		$fields        = get_blocks( $form_id );
 
 		if ( empty( $fields ) ) {
 			return;
@@ -291,8 +293,6 @@ class FormHandler {
 				'value' => 'pending',
 			);
 		}
-
-		$this->form_id = $form_id;
 
 		if ( empty( $this->valid_data['separate_shipping']['value'] ) ) {
 			foreach ( $this->valid_data as $name => $data ) {
@@ -567,11 +567,7 @@ class FormHandler {
 			}
 		);
 
-		if ( ! empty( get_post_meta( $this->form_id, '_tgwcfb_redirect_url', true ) ) ) {
-			$redirect = wp_sanitize_redirect( get_post_meta( $this->form_id, '_tgwcfb_redirect_url', true ) );
-		} else {
-			$redirect = '';
-		}
+		$redirect = $this->get_form_redirect_url();
 
 		if ( ! empty( $redirect ) && wp_safe_redirect( $redirect ) ) {
 			exit;
@@ -586,8 +582,79 @@ class FormHandler {
 	 * @return string
 	 */
 	public function change_redirect_url( $redirect ) {
-		$redirect_url = get_post_meta( $this->form_id, '_tgwcfb_redirect_url', true );
-		return ! empty( $redirect_url ) ? $redirect_url : $redirect;
+		$redirect_url = $this->get_form_redirect_url();
+
+		if ( empty( $redirect_url ) ) {
+			return $redirect;
+		}
+
+		$this->maybe_allow_redirect_host( $redirect_url );
+
+		return $redirect_url;
+	}
+
+	/**
+	 * Get sanitized redirect URL configured for the current form.
+	 *
+	 * @since 1.1.2
+	 * @param int|null $form_id Form ID.
+	 * @return string
+	 */
+	public function get_form_redirect_url( $form_id = null ) {
+		if ( empty( $form_id ) ) {
+			$form_id = $this->form_id;
+		}
+
+		if ( empty( $form_id ) && isset( $_POST['tgwcfb_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$form_id = absint( wp_unslash( $_POST['tgwcfb_id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		}
+
+		if ( empty( $form_id ) ) {
+			return '';
+		}
+
+		$url = get_post_meta( $form_id, '_tgwcfb_redirect_url', true );
+
+		if ( empty( $url ) || ! is_string( $url ) ) {
+			return '';
+		}
+
+		$url = trim( $url );
+
+		if ( '' === $url ) {
+			return '';
+		}
+
+		// Convert relative paths (e.g. /thank-you/) to absolute URLs.
+		if ( ! preg_match( '#^https?://#i', $url ) ) {
+			$url = home_url( '/' . ltrim( $url, '/' ) );
+		}
+
+		return esc_url_raw( $url );
+	}
+
+	/**
+	 * Allow redirect host when the configured URL is external.
+	 *
+	 * @since 1.1.2
+	 * @param string $redirect_url Redirect URL.
+	 * @return void
+	 */
+	private function maybe_allow_redirect_host( $redirect_url ) {
+		$host      = wp_parse_url( $redirect_url, PHP_URL_HOST );
+		$site_host = wp_parse_url( home_url(), PHP_URL_HOST );
+
+		if ( empty( $host ) || empty( $site_host ) || strtolower( $host ) === strtolower( $site_host ) ) {
+			return;
+		}
+
+		add_filter(
+			'allowed_redirect_hosts',
+			static function ( $hosts ) use ( $host ) {
+				$hosts[] = $host;
+				return array_unique( $hosts );
+			}
+		);
 	}
 
 	/**

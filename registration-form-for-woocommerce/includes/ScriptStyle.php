@@ -71,6 +71,7 @@ class ScriptStyle {
 				'maxUploadSize'     => wp_max_upload_size(),
 				'adminURL'          => admin_url(),
 				'homeURL'           => home_url(),
+				'ajaxURL'           => admin_url( 'admin-ajax.php' ),
 				'captchaType'       => get_option( '_tgwcfb_captcha_type', 'v2' ),
 			)
 		);
@@ -171,7 +172,7 @@ class ScriptStyle {
 			return;
 		}
 
-		if ( count( array_intersect( array( 'tgwcfb/select', 'tgwcfb/multi-select' ), $blocks ) ) > 0 ) {
+		if ( count( array_intersect( array( 'tgwcfb/multi-select', 'tgwcfb/user-roles' ), $blocks ) ) > 0 ) {
 			wp_enqueue_script( 'tgwcfb-select' );
 			wp_enqueue_style( 'select2' );
 		}

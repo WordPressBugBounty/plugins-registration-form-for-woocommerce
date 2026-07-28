@@ -23,6 +23,12 @@ use function ThemeGrill\WooCommerceRegistrationFormBuilder\translate_dynamic_str
 			<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
 			<?php wp_nonce_field( 'tgwcfb-register', 'tgwcfb-register-nonce' ); ?>
 			<input type="hidden" name="tgwcfb_id" value="<?php echo esc_attr( $form_id ); ?>">
+			<?php
+			$redirect_url = get_post_meta( $form_id, '_tgwcfb_redirect_url', true );
+			if ( ! empty( $redirect_url ) ) :
+				?>
+			<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect_url ); ?>" />
+			<?php endif; ?>
 			<input type="hidden" name="register" value="1" />
 			<?php
 			$text = get_post_meta( $form_id, '_tgwcfb_submit_btn_text', true );

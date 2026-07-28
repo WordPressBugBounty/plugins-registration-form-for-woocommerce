@@ -45,7 +45,6 @@ import {
 } from './default';
 import {
 	addFilters,
-	addPreviewButton,
 	addShortcodeToolbar,
 	autoRecoverBlocks,
 	hideEditorActions,
@@ -69,7 +68,6 @@ import {
 addFilters();
 hideEditorActions();
 addShortcodeToolbar();
-addPreviewButton();
 autoRecoverBlocks();
 
 // Default fields.

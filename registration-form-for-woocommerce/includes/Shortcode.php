@@ -65,10 +65,16 @@ class Shortcode {
 			$user         = get_user_by( 'ID', get_current_user_id() );
 			$display_name = ! empty( $user->data->display_name ) ? $user->data->display_name : $user->data->user_email;
 
+			$myaccount_url = wc_get_page_permalink( 'myaccount' );
+
 			return apply_filters(
 				'tgwcfb_pre_form_message',
-				/* Translators: 1: Current user display name 2: Logout URL */
-				'<p class="woocommerce-error">' . sprintf( __( 'You are currently logged in as %1$1s. %2$2s', 'registration-form-for-woocommerce' ), '<a href="#" title="' . $display_name . '">' . $display_name . '</a>', '<a href="' . wp_logout_url( wc_get_page_permalink( 'myaccount' ) ) . '" title="' . __( 'Log out of this account.', 'registration-form-for-woocommerce' ) . '">' . __( 'Logout', 'registration-form-for-woocommerce' ) . '  &#8594;</a>' ) . '</p>'
+				'<p class="woocommerce-error">' . sprintf(
+					/* translators: 1: Current user display name 2: Logout URL */
+					__( 'You are currently logged in as %1$s. %2$s', 'registration-form-for-woocommerce' ),
+					'<a href="' . esc_url( $myaccount_url ) . '" title="' . esc_attr( $display_name ) . '">' . esc_html( $display_name ) . '</a>',
+					'<a href="' . esc_url( wp_logout_url( $myaccount_url ) ) . '" title="' . esc_attr__( 'Log out of this account.', 'registration-form-for-woocommerce' ) . '">' . esc_html__( 'Logout', 'registration-form-for-woocommerce' ) . '  &#8594;</a>'
+				) . '</p>'
 			);
 		}
 

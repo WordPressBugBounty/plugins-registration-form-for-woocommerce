@@ -91,7 +91,6 @@ final class WooCommerceRegistrationFormBuilder {
 		new RESTAPI();
 		new Ajax();
 		new Admin();
-		new Preview();
 		$this->init_hooks();
 		do_action( 'tgwcfb_loaded' );
 	}
