@@ -2,9 +2,9 @@
 Contributors: ThemeGrill
 Tags: registration, form fields, registration form, woocommerce registration, registration fields
 Requires at least: 5.5
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -83,6 +83,9 @@ Love Registration Form for WooCommerce? Why not check out more WordPress themes 
 6. General Settings
 
 == Changelog ==
+
+= 1.1.3       - 31-08-2026 =
+* Fix         - Prevented privilege escalation via unvalidated registration form ID.
 
 = 1.1.2       - 28-07-2026 =
 * Fix         - Redirect after successful registration ignored configured URL.

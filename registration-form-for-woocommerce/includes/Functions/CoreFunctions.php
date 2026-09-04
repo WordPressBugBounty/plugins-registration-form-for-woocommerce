@@ -8,6 +8,9 @@
 
 namespace ThemeGrill\WooCommerceRegistrationFormBuilder;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Default post content.
  *
@@ -86,8 +89,13 @@ function render_blocks( $blocks = array(), $id = null, $should_translate = false
  * @return array[] Blocks.
  */
 function get_blocks( $id ) {
-	$content = get_post( $id )->post_content;
-	return parse_blocks( $content );
+	$post = get_post( $id );
+
+	if ( ! $post || 'tgwcfb_form' !== $post->post_type ) {
+		return array();
+	}
+
+	return parse_blocks( $post->post_content );
 }
 
 /**
